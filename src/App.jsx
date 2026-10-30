@@ -11,7 +11,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { db } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import logoImage from './logo.png';
 
 export default function App() {
@@ -98,21 +98,32 @@ export default function App() {
 
     setLoadingOrder(true);
     try {
-      const docRef = doc(db, 'orders', cleanQuery);
-      const docSnap = await getDoc(docRef);
+      const q = query(collection(db, 'orders'), where('tagId', '==', cleanQuery));
+      const querySnapshot = await getDocs(q);
 
-      if (docSnap.exists()) {
+      if (!querySnapshot.empty) {
+        const docSnap = querySnapshot.docs[0];
         setSearchedOrder({
-          id: docSnap.id,
+          id: docSnap.data().tagId || docSnap.id,
           ...docSnap.data()
         });
       } else {
-        setSearchedOrder(null);
-        alert("Ticket not found. Please check your ticket number.");
+        const docRef = doc(db, 'orders', cleanQuery);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setSearchedOrder({
+            id: docSnap.id,
+            ...docSnap.data()
+          });
+        } else {
+          setSearchedOrder(null);
+          alert("Ticket not found. Please check your ticket number.");
+        }
       }
     } catch (error) {
       console.error("Error searching ticket:", error);
-      alert("Error fetching order status. Please check your Firebase rules or try again.");
+      alert("Error fetching order status. Please try again.");
     } finally {
       setLoadingOrder(false);
     }
