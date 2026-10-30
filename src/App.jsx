@@ -112,7 +112,7 @@ export default function App() {
       }
     } catch (error) {
       console.error("Error searching ticket:", error);
-      alert("Error fetching order status. Please try again.");
+      alert("Error fetching order status. Please check your Firebase rules or try again.");
     } finally {
       setLoadingOrder(false);
     }
@@ -353,7 +353,7 @@ export default function App() {
             <form onSubmit={handleTrackOrder} className="flex gap-3">
               <input
                 type="text"
-                placeholder="e.g. 7897"
+                placeholder="e.g. 7244"
                 value={ticketQuery}
                 onChange={(e) => setTicketQuery(e.target.value)}
                 className="flex-1 bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 uppercase tracking-wider font-bold shadow-inner"
