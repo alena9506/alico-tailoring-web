@@ -103,15 +103,23 @@ export default function App() {
 
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        const docId = docSnap.id.toString();
         const details = data.details || {};
-        const detailsId = details.id ? details.id.toString() : '';
-        const tagIdVal = data.tagId ? data.tagId.toString() : '';
+        
+        const docId = docSnap.id ? docSnap.id.toString().trim() : '';
+        const detailsId = details.id !== undefined && details.id !== null ? details.id.toString().trim() : '';
+        const tagIdVal = data.tagId !== undefined && data.tagId !== null ? data.tagId.toString().trim() : '';
+        const rootId = data.id !== undefined && data.id !== null ? data.id.toString().trim() : '';
 
-        if (docId === cleanQuery || detailsId === cleanQuery || tagIdVal === cleanQuery || data.tag === cleanQuery) {
+        if (
+          docId === cleanQuery || 
+          detailsId === cleanQuery || 
+          tagIdVal === cleanQuery || 
+          rootId === cleanQuery ||
+          data.tag?.toString().trim() === cleanQuery
+        ) {
           foundOrder = {
-            id: detailsId || tagIdVal || docSnap.id,
-            service: details.serviceType || data.service || 'Alteration',
+            id: detailsId || tagIdVal || rootId || docId,
+            service: details.serviceType || data.service || 'Alterations & Tailoring',
             status: details.status || data.status || 'Pending',
             date: details.dueDate || data.date || data.readyDate || 'Ready Soon',
             total: details.total || data.total || '0.00',
