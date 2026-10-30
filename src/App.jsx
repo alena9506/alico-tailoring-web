@@ -18,7 +18,6 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   
   // Price Estimator state
-  const [serviceCategory, setServiceCategory] = useState('alteration');
   const [selectedGarment, setSelectedGarment] = useState('trousers');
   const [selectedAlteration, setSelectedAlteration] = useState('Hemming / Length adjustment (€12.00)');
   const [estimatePrice, setEstimatePrice] = useState('12.00');
@@ -81,7 +80,6 @@ export default function App() {
 
   const handleAlterationChange = (altString) => {
     setSelectedAlteration(altString);
-    // Extract price from string like "Hemming (€12.00)"
     const match = altString.match(/€([\d.]+)/);
     if (match && match[1]) {
       setEstimatePrice(match[1]);
@@ -110,7 +108,7 @@ export default function App() {
         });
       } else {
         setSearchedOrder(null);
-        alert("Ticket not found. Please check your reference code or contact our Grafton Street shop.");
+        alert("Ticket not found. Please check your ticket number.");
       }
     } catch (error) {
       console.error("Error searching ticket:", error);
@@ -288,7 +286,7 @@ export default function App() {
           </div>
         )}
 
-        {/* DETAILED PRICE ESTIMATOR TAB */}
+        {/* PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
           <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
             <div>
@@ -298,7 +296,6 @@ export default function App() {
             </div>
 
             <div className="space-y-6">
-              {/* Garment Selector */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">1. Select Garment or Item</label>
                 <select
@@ -316,7 +313,6 @@ export default function App() {
                 </select>
               </div>
 
-              {/* Specific Alteration Selector */}
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">2. Select Specific Alteration or Service</label>
                 <select
@@ -332,7 +328,6 @@ export default function App() {
                 </select>
               </div>
 
-              {/* Price Display Card */}
               <div className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg shadow-cyan-500/20">
                 <div>
                   <p className="text-xs uppercase font-bold tracking-wider text-cyan-100">Estimated Price</p>
@@ -352,13 +347,13 @@ export default function App() {
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live System</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-1">Track Your Order</h2>
-              <p className="text-slate-500 text-sm">Enter your ticket code to view real-time status from our shop database.</p>
+              <p className="text-slate-500 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
             </div>
 
             <form onSubmit={handleTrackOrder} className="flex gap-3">
               <input
                 type="text"
-                placeholder="e.g. ALT-7842"
+                placeholder="e.g. 7897"
                 value={ticketQuery}
                 onChange={(e) => setTicketQuery(e.target.value)}
                 className="flex-1 bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm text-slate-800 focus:outline-none focus:border-cyan-500 uppercase tracking-wider font-bold shadow-inner"
