@@ -117,11 +117,14 @@ export default function App() {
           rootId === cleanQuery ||
           data.tag?.toString().trim() === cleanQuery
         ) {
+          // Grab the precise due date from details.dueDate or root fields
+          const rawDate = details.dueDate || data.dueDate || data.date || data.readyDate;
+
           foundOrder = {
             id: detailsId || tagIdVal || rootId || docId,
             service: details.serviceType || data.service || 'Alterations & Tailoring',
             status: details.status || data.status || 'Pending',
-            date: details.dueDate || data.date || data.readyDate || 'Ready Soon',
+            date: rawDate ? rawDate : 'As agreed in store',
             total: details.total || data.total || '0.00',
             phone: details.phone || data.phone || 'N/A',
             ...data
@@ -401,7 +404,7 @@ export default function App() {
                 <div className="space-y-2.5 text-sm">
                   <p><strong className="text-slate-500">Service:</strong> <span className="text-slate-900 font-semibold">{searchedOrder.service || searchedOrder.item || 'Tailoring & Alterations'}</span></p>
                   <p><strong className="text-slate-500">Phone:</strong> <span className="text-slate-900 font-medium">{searchedOrder.phone || searchedOrder.phoneNumber || 'N/A'}</span></p>
-                  <p><strong className="text-slate-500">Target Ready Date:</strong> <span className="text-cyan-700 font-extrabold">{searchedOrder.date || searchedOrder.readyDate || 'Ready Soon'}</span></p>
+                  <p><strong className="text-slate-500">Target Ready Date:</strong> <span className="text-slate-900 font-semibold">{searchedOrder.date}</span></p>
                   <p><strong className="text-slate-500">Total:</strong> <span className="text-slate-900 font-bold">€{searchedOrder.total || searchedOrder.price || '0.00'}</span></p>
                 </div>
               </div>
