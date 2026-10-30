@@ -5,12 +5,8 @@ import {
   MapPin, 
   Clock, 
   Phone, 
-  Mail, 
   Navigation, 
-  CheckCircle2, 
-  Info,
-  Calendar,
-  ExternalLink
+  ExternalLink 
 } from 'lucide-react';
 
 export default function App() {
@@ -18,8 +14,7 @@ export default function App() {
   
   // Price Estimator state
   const [serviceType, setServiceType] = useState('alteration');
-  const [garmentType, setGarmentType] = useState('Trousers / Jeans');
-  const [customAlteration, setCustomAlteration] = useState('');
+  const [garmentType, setGarmentType] = useState('Trousers / Jeans (Hemming / Alteration)');
   const [estimatePrice, setEstimatePrice] = useState('12.00');
 
   // Order Tracker state
@@ -28,19 +23,19 @@ export default function App() {
 
   const handleCalculateEstimate = (e) => {
     e.preventDefault();
-    // Quick estimation logic based on garment selection
     let base = 12;
     if (garmentType.includes('Suit Jacket')) base = 25;
     else if (garmentType.includes('Dress')) base = 25;
     else if (garmentType.includes('Coat')) base = 30;
     else if (garmentType.includes('Curtains')) base = 15;
+    else if (garmentType.includes('Dry Cleaning')) base = 14;
+    else if (garmentType.includes('Duvet')) base = 22;
     setEstimatePrice(base.toFixed(2));
   };
 
   const handleTrackOrder = (e) => {
     e.preventDefault();
     if (!ticketQuery.trim()) return;
-    // Simulated order lookup result for demonstration
     setSearchedOrder({
       id: ticketQuery.toUpperCase(),
       service: 'Trousers Hemming & Tailoring',
@@ -52,7 +47,6 @@ export default function App() {
 
   const openNativeMaps = () => {
     const addressQuery = encodeURIComponent('Grafton Street Area, Dublin, Ireland');
-    // Universal URL that triggers Apple Maps on iOS or Google Maps on Android/Desktop
     window.open(`https://www.google.com/maps/search/?api=1&query=${addressQuery}`, '_blank');
   };
 
@@ -209,7 +203,16 @@ export default function App() {
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Service Category</label>
                 <select
                   value={serviceType}
-                  onChange={(e) => setServiceType(e.target.value)}
+                  onChange={(e) => {
+                    setServiceType(e.target.value);
+                    if (e.target.value === 'laundry') {
+                      setGarmentType('Wash, Dry & Fold (Per Kg)');
+                      setEstimatePrice('6.50');
+                    } else {
+                      setGarmentType('Trousers / Jeans (Hemming / Alteration)');
+                      setEstimatePrice('12.00');
+                    }
+                  }}
                   className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 text-white shadow-inner"
                 >
                   <option value="alteration">Tailoring & Alteration</option>
@@ -222,7 +225,10 @@ export default function App() {
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Garment Type</label>
                   <select
                     value={garmentType}
-                    onChange={(e) => setGarmentType(e.target.value)}
+                    onChange={(e) => {
+                      setGarmentType(e.target.value);
+                      handleCalculateEstimate({ preventDefault: () => {} });
+                    }}
                     className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 text-white shadow-inner"
                   >
                     <option>Trousers / Jeans (Hemming / Alteration)</option>
@@ -239,7 +245,10 @@ export default function App() {
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Laundry Service</label>
                   <select
                     value={garmentType}
-                    onChange={(e) => setGarmentType(e.target.value)}
+                    onChange={(e) => {
+                      setGarmentType(e.target.value);
+                      handleCalculateEstimate({ preventDefault: () => {} });
+                    }}
                     className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-teal-500 text-white shadow-inner"
                   >
                     <option>Wash, Dry & Fold (Per Kg)</option>
@@ -365,8 +374,6 @@ export default function App() {
               {/* Interactive Dublin Map View Placeholder */}
               <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute inset-0 bg-slate-950/40 z-10 pointer-events-none"></div>
-                
-                {/* Simulated Dublin Map Background Preview */}
                 <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] opacity-60"></div>
 
                 <div className="relative z-20 flex justify-between items-start">
