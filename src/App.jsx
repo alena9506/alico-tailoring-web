@@ -8,8 +8,7 @@ import {
   Navigation, 
   ExternalLink,
   Sparkles,
-  CheckCircle2,
-  ShieldCheck
+  CheckCircle2
 } from 'lucide-react';
 import { db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -19,26 +18,80 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   
   // Price Estimator state
-  const [serviceType, setServiceType] = useState('alteration');
-  const [garmentType, setGarmentType] = useState('Trousers / Jeans (Hemming / Alteration)');
+  const [serviceCategory, setServiceCategory] = useState('alteration');
+  const [selectedGarment, setSelectedGarment] = useState('trousers');
+  const [selectedAlteration, setSelectedAlteration] = useState('Hemming / Length adjustment (€12.00)');
   const [estimatePrice, setEstimatePrice] = useState('12.00');
+
+  // Detailed alteration options per garment type
+  const alterationOptions = {
+    trousers: [
+      { name: 'Hemming / Length adjustment', price: 12.00 },
+      { name: 'Waist take-in / Let-out', price: 16.00 },
+      { name: 'Zip replacement', price: 15.00 },
+      { name: 'Taper legs (Slimming)', price: 18.00 },
+      { name: 'New pocket lining', price: 14.00 }
+    ],
+    jacket: [
+      { name: 'Sleeve shortening (Plain cuff)', price: 22.00 },
+      { name: 'Sleeve shortening (Working buttonholes)', price: 35.00 },
+      { name: 'Take in / Let out side seams', price: 30.00 },
+      { name: 'Full jacket resize', price: 45.00 },
+      { name: 'New jacket lining', price: 65.00 }
+    ],
+    dress: [
+      { name: 'Hem shortening (Simple / Single layer)', price: 25.00 },
+      { name: 'Hem shortening (Multi-layer / Formal)', price: 40.00 },
+      { name: 'Take in side seams / Refitting', price: 28.00 },
+      { name: 'Strap adjustment', price: 15.00 },
+      { name: 'Zip replacement (Invisible zip)', price: 22.00 }
+    ],
+    shirt: [
+      { name: 'Sleeve shortening', price: 18.00 },
+      { name: 'Take in side seams (Slim fit)', price: 15.00 },
+      { name: 'Darts in back', price: 14.00 },
+      { name: 'Collar / Cuff replacement', price: 20.00 }
+    ],
+    skirt: [
+      { name: 'Hem shortening', price: 18.00 },
+      { name: 'Waist adjustment', price: 16.00 },
+      { name: 'Zip replacement', price: 18.00 }
+    ],
+    curtains: [
+      { name: 'Hemming per metre', price: 15.00 },
+      { name: 'Insert curtain tape / Header tape', price: 18.00 },
+      { name: 'Width reduction', price: 22.00 }
+    ],
+    laundry: [
+      { name: 'Wash, Dry & Fold (Per Kg)', price: 6.50 },
+      { name: 'Dry Cleaning (Standard Suit / Coat)', price: 14.00 },
+      { name: 'Duvet / Heavy Bedding Care', price: 22.00 },
+      { name: 'Ironing Only Service (Per item)', price: 4.00 }
+    ]
+  };
+
+  const handleGarmentChange = (garmentKey) => {
+    setSelectedGarment(garmentKey);
+    const options = alterationOptions[garmentKey];
+    if (options && options.length > 0) {
+      setSelectedAlteration(`${options[0].name} (€${options[0].price.toFixed(2)})`);
+      setEstimatePrice(options[0].price.toFixed(2));
+    }
+  };
+
+  const handleAlterationChange = (altString) => {
+    setSelectedAlteration(altString);
+    // Extract price from string like "Hemming (€12.00)"
+    const match = altString.match(/€([\d.]+)/);
+    if (match && match[1]) {
+      setEstimatePrice(match[1]);
+    }
+  };
 
   // Order Tracker state
   const [ticketQuery, setTicketQuery] = useState('');
   const [searchedOrder, setSearchedOrder] = useState(null);
   const [loadingOrder, setLoadingOrder] = useState(false);
-
-  const handleCalculateEstimate = (e) => {
-    e.preventDefault();
-    let base = 12;
-    if (garmentType.includes('Suit Jacket')) base = 25;
-    else if (garmentType.includes('Dress')) base = 25;
-    else if (garmentType.includes('Coat')) base = 30;
-    else if (garmentType.includes('Curtains')) base = 15;
-    else if (garmentType.includes('Dry Cleaning')) base = 14;
-    else if (garmentType.includes('Duvet')) base = 22;
-    setEstimatePrice(base.toFixed(2));
-  };
 
   const handleTrackOrder = async (e) => {
     e.preventDefault();
@@ -153,8 +206,6 @@ export default function App() {
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
           <div className="space-y-16 py-4">
-            
-            {/* Hero Banner with Business Image Context */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
               <div className="space-y-6 text-left">
                 <span className="inline-flex items-center gap-1.5 bg-cyan-100 text-cyan-800 text-xs px-3.5 py-1.5 rounded-full font-bold uppercase tracking-wider">
@@ -190,11 +241,10 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visual Tailoring / Laundry Showcase Card */}
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-cyan-100 bg-cyan-900 group">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-cyan-100 bg-cyan-950 group">
                 <img 
                   src="https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?auto=format&fit=crop&w=800&q=80" 
-                  alt="Tailoring and Alterations Studio" 
+                  alt="Tailoring Studio" 
                   className="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-8 text-white">
@@ -204,7 +254,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Service Highlights Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
               <div className="bg-white border border-cyan-100 hover:border-cyan-300 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-cyan-950/5 group">
                 <div className="w-14 h-14 rounded-2xl bg-cyan-100 border border-cyan-200 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-500 group-hover:text-white transition">
@@ -236,90 +285,64 @@ export default function App() {
                 </p>
               </div>
             </div>
-
           </div>
         )}
 
-        {/* PRICE ESTIMATOR TAB */}
+        {/* DETAILED PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
           <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Instant Quote</span>
-              <h2 className="text-2xl font-bold text-slate-900 mt-1">Price Estimator</h2>
-              <p className="text-slate-500 text-sm">Select your garment or service type to preview estimated pricing.</p>
+              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Detailed Quote Generator</span>
+              <h2 className="text-2xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
+              <p className="text-slate-500 text-sm">Select your garment and specific alteration type for an instant estimate.</p>
             </div>
 
-            <form onSubmit={handleCalculateEstimate} className="space-y-6">
+            <div className="space-y-6">
+              {/* Garment Selector */}
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">Service Category</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">1. Select Garment or Item</label>
                 <select
-                  value={serviceType}
-                  onChange={(e) => {
-                    setServiceType(e.target.value);
-                    if (e.target.value === 'laundry') {
-                      setGarmentType('Wash, Dry & Fold (Per Kg)');
-                      setEstimatePrice('6.50');
-                    } else {
-                      setGarmentType('Trousers / Jeans (Hemming / Alteration)');
-                      setEstimatePrice('12.00');
-                    }
-                  }}
+                  value={selectedGarment}
+                  onChange={(e) => handleGarmentChange(e.target.value)}
                   className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-500 text-slate-800 shadow-inner font-medium"
                 >
-                  <option value="alteration">Tailoring & Alteration</option>
-                  <option value="laundry">Laundry & Dry Cleaning</option>
+                  <option value="trousers">Trousers / Jeans</option>
+                  <option value="jacket">Suit Jacket / Blazer</option>
+                  <option value="dress">Dress / Formal Wear</option>
+                  <option value="shirt">Shirt / Blouse</option>
+                  <option value="skirt">Skirt</option>
+                  <option value="curtains">Curtains / Home Textiles</option>
+                  <option value="laundry">Laundry & Dry Cleaning Services</option>
                 </select>
               </div>
 
-              {serviceType === 'alteration' ? (
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">Garment Type</label>
-                  <select
-                    value={garmentType}
-                    onChange={(e) => {
-                      setGarmentType(e.target.value);
-                      handleCalculateEstimate({ preventDefault: () => {} });
-                    }}
-                    className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-500 text-slate-800 shadow-inner font-medium"
-                  >
-                    <option>Trousers / Jeans (Hemming / Alteration)</option>
-                    <option>Suit Jacket / Blazer</option>
-                    <option>Dress / Formal Wear</option>
-                    <option>Skirt</option>
-                    <option>Shirt / Blouse</option>
-                    <option>Coat / Jacket</option>
-                    <option>Curtains / Home Textiles</option>
-                  </select>
-                </div>
-              ) : (
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">Laundry Service</label>
-                  <select
-                    value={garmentType}
-                    onChange={(e) => {
-                      setGarmentType(e.target.value);
-                      handleCalculateEstimate({ preventDefault: () => {} });
-                    }}
-                    className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-500 text-slate-800 shadow-inner font-medium"
-                  >
-                    <option>Wash, Dry & Fold (Per Kg)</option>
-                    <option>Dry Cleaning (Standard Garment)</option>
-                    <option>Duvet / Heavy Bedding</option>
-                    <option>Ironing Only</option>
-                  </select>
-                </div>
-              )}
+              {/* Specific Alteration Selector */}
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">2. Select Specific Alteration or Service</label>
+                <select
+                  value={selectedAlteration}
+                  onChange={(e) => handleAlterationChange(e.target.value)}
+                  className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-500 text-slate-800 shadow-inner font-medium"
+                >
+                  {alterationOptions[selectedGarment].map((alt, index) => (
+                    <option key={index} value={`${alt.name} (€${alt.price.toFixed(2)})`}>
+                      {alt.name} — €{alt.price.toFixed(2)}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
+              {/* Price Display Card */}
               <div className="bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg shadow-cyan-500/20">
                 <div>
                   <p className="text-xs uppercase font-bold tracking-wider text-cyan-100">Estimated Price</p>
                   <p className="text-4xl font-extrabold mt-1">€{estimatePrice}</p>
                 </div>
-                <span className="text-xs text-cyan-100 text-right max-w-[180px] leading-relaxed font-medium">
-                  Final quotation confirmed upon in-store inspection.
+                <span className="text-xs text-cyan-100 text-right max-w-[190px] leading-relaxed font-medium">
+                  Final quotation confirmed upon in-store inspection at Grafton Street.
                 </span>
               </div>
-            </form>
+            </div>
           </div>
         )}
 
@@ -375,8 +398,6 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
-              {/* Contact & Hours Info */}
               <div className="bg-white border border-cyan-100 rounded-3xl p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
@@ -425,7 +446,6 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Interactive Dublin Map View */}
               <div className="bg-white border border-cyan-100 rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/80 to-teal-50/40 z-10 pointer-events-none"></div>
 
@@ -457,7 +477,6 @@ export default function App() {
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         )}
@@ -473,24 +492,24 @@ export default function App() {
 
             <div className="divide-y divide-cyan-100 text-sm font-medium">
               <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
-                <span className="text-slate-800">Trousers Hemming</span>
+                <span className="text-slate-800">Trousers Hemming / Adjustment</span>
                 <span className="font-extrabold text-cyan-600 text-base">€12.00</span>
+              </div>
+              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
+                <span className="text-slate-800">Trousers Waist Take-in</span>
+                <span className="font-extrabold text-cyan-600 text-base">€16.00</span>
+              </div>
+              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
+                <span className="text-slate-800">Jacket Sleeve Shortening</span>
+                <span className="font-extrabold text-cyan-600 text-base">€22.00</span>
+              </div>
+              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
+                <span className="text-slate-800">Dress Hem Shortening</span>
+                <span className="font-extrabold text-cyan-600 text-base">€25.00</span>
               </div>
               <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
                 <span className="text-slate-800">Zip Replacement (Jacket / Jeans)</span>
                 <span className="font-extrabold text-cyan-600 text-base">€18.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
-                <span className="text-slate-800">Waist Take-in / Let-out</span>
-                <span className="font-extrabold text-cyan-600 text-base">€16.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
-                <span className="text-slate-800">Dress Shortening / Hemming</span>
-                <span className="font-extrabold text-cyan-600 text-base">€25.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
-                <span className="text-slate-800">Sleeve Shortening (Jacket / Coat)</span>
-                <span className="font-extrabold text-cyan-600 text-base">€22.00</span>
               </div>
               <div className="py-4 flex justify-between items-center hover:bg-cyan-50/50 px-3 rounded-xl transition">
                 <span className="text-slate-800">Curtain Hemming (per metre)</span>
