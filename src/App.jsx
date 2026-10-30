@@ -8,7 +8,8 @@ import {
   Navigation, 
   ExternalLink,
   Sparkles,
-  CheckCircle2
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -89,6 +90,7 @@ export default function App() {
   // Order Tracker state
   const [ticketQuery, setTicketQuery] = useState('');
   const [searchedOrder, setSearchedOrder] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [loadingOrder, setLoadingOrder] = useState(false);
 
   const handleTrackOrder = async (e) => {
@@ -97,6 +99,9 @@ export default function App() {
     if (!cleanQuery) return;
 
     setLoadingOrder(true);
+    setErrorMessage('');
+    setSearchedOrder(null);
+
     try {
       const querySnapshot = await getDocs(collection(db, 'orders'));
       let foundOrder = null;
@@ -117,7 +122,6 @@ export default function App() {
           rootId === cleanQuery ||
           data.tag?.toString().trim() === cleanQuery
         ) {
-          // Grab the precise due date from details.dueDate or root fields
           const rawDate = details.dueDate || data.dueDate || data.date || data.readyDate;
 
           foundOrder = {
@@ -135,12 +139,11 @@ export default function App() {
       if (foundOrder) {
         setSearchedOrder(foundOrder);
       } else {
-        setSearchedOrder(null);
-        alert("Ticket not found. Please check your ticket number.");
+        setErrorMessage("Ticket not found. Please check your ticket number and try again.");
       }
     } catch (error) {
       console.error("Error searching ticket:", error);
-      alert("Error fetching order status. Please check your connection.");
+      setErrorMessage("Error fetching order status. Please check your connection.");
     } finally {
       setLoadingOrder(false);
     }
@@ -394,6 +397,14 @@ export default function App() {
                 {loadingOrder ? 'Searching...' : 'Search'}
               </button>
             </form>
+
+            {/* Inline Error Message (Clean & Professional) */}
+            {errorMessage && (
+              <div className="bg-rose-50 border-2 border-rose-200 text-rose-800 rounded-2xl p-4 flex items-center gap-3 text-sm font-medium animate-fade-in shadow-sm">
+                <AlertCircle className="w-5 h-5 text-rose-500 shrink-0" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
 
             {searchedOrder && (
               <div className="bg-cyan-50/60 border-2 border-cyan-200 rounded-2xl p-6 space-y-4 shadow-sm animate-fade-in">
