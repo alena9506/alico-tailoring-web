@@ -172,12 +172,12 @@ export default function App() {
             <p className="text-[11px] text-cyan-700 font-bold tracking-wider uppercase lg:hidden">Dublin Tailoring & Laundry</p>
           </div>
 
-          {/* Fully Responsive Scrollable Nav Bar */}
-          <nav className="flex bg-cyan-50/90 p-1 rounded-2xl border border-cyan-100 shadow-inner overflow-x-auto w-full lg:w-auto max-w-full no-scrollbar">
-            <div className="flex gap-1 min-w-max mx-auto">
+          {/* Responsive Nav: Grid on Mobile, Flex on Desktop */}
+          <nav className="bg-cyan-50/90 p-1.5 rounded-2xl border border-cyan-100 shadow-inner w-full lg:w-auto">
+            <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'overview'
                     ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
                     : 'text-slate-600 hover:text-cyan-900'
@@ -187,37 +187,37 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('estimator')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'estimator'
                     ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
                     : 'text-slate-600 hover:text-cyan-900'
                 }`}
               >
-                Price Estimator
+                Estimator
               </button>
               <button
                 onClick={() => setActiveTab('tracker')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'tracker'
                     ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
                     : 'text-slate-600 hover:text-cyan-900'
                 }`}
               >
-                Live Order Tracker
+                Tracker
               </button>
               <button
                 onClick={() => setActiveTab('about')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1 ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
                   activeTab === 'about'
                     ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
                     : 'text-slate-600 hover:text-cyan-900'
                 }`}
               >
-                <MapPin className="w-3.5 h-3.5" /> About & Location
+                <MapPin className="w-3.5 h-3.5 shrink-0" /> About
               </button>
               <button
                 onClick={() => setActiveTab('menu')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
                   activeTab === 'menu'
                     ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
                     : 'text-slate-600 hover:text-cyan-900'
