@@ -158,79 +158,80 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-b from-cyan-50/60 via-white to-slate-50 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white">
       
       {/* HEADER & NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/90 border-b border-cyan-100 backdrop-blur-md px-6 py-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-4 sm:px-6 py-3 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-3">
           
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
-            <div className="h-12 flex items-center justify-center">
+          <div className="flex items-center justify-between w-full lg:w-auto cursor-pointer group" onClick={() => setActiveTab('overview')}>
+            <div className="h-10 flex items-center justify-center">
               <img 
                 src={logoImage} 
                 alt="ALiCo Logo" 
-                className="h-11 w-auto object-contain group-hover:scale-105 transition-transform" 
+                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform" 
               />
             </div>
-            <div>
-              <p className="text-xs text-cyan-700 font-semibold tracking-wider uppercase">Dublin Tailoring & Dry Cleaning</p>
-            </div>
+            <p className="text-[11px] text-cyan-700 font-bold tracking-wider uppercase lg:hidden">Dublin Tailoring & Laundry</p>
           </div>
 
-          <nav className="flex bg-cyan-50/80 p-1.5 rounded-2xl border border-cyan-100 shadow-inner overflow-x-auto max-w-full">
-            <button
-              onClick={() => setActiveTab('overview')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                activeTab === 'overview'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
-                  : 'text-slate-600 hover:text-cyan-900'
-              }`}
-            >
-              Overview
-            </button>
-            <button
-              onClick={() => setActiveTab('estimator')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                activeTab === 'estimator'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
-                  : 'text-slate-600 hover:text-cyan-900'
-              }`}
-            >
-              Price Estimator
-            </button>
-            <button
-              onClick={() => setActiveTab('tracker')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                activeTab === 'tracker'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
-                  : 'text-slate-600 hover:text-cyan-900'
-              }`}
-            >
-              Live Order Tracker
-            </button>
-            <button
-              onClick={() => setActiveTab('about')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
-                activeTab === 'about'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
-                  : 'text-slate-600 hover:text-cyan-900'
-              }`}
-            >
-              <MapPin className="w-3.5 h-3.5" /> About & Location
-            </button>
-            <button
-              onClick={() => setActiveTab('menu')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                activeTab === 'menu'
-                  ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
-                  : 'text-slate-600 hover:text-cyan-900'
-              }`}
-            >
-              Price Menu
-            </button>
+          {/* Fully Responsive Scrollable Nav Bar */}
+          <nav className="flex bg-cyan-50/90 p-1 rounded-2xl border border-cyan-100 shadow-inner overflow-x-auto w-full lg:w-auto max-w-full no-scrollbar">
+            <div className="flex gap-1 min-w-max mx-auto">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  activeTab === 'overview'
+                    ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
+                    : 'text-slate-600 hover:text-cyan-900'
+                }`}
+              >
+                Overview
+              </button>
+              <button
+                onClick={() => setActiveTab('estimator')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  activeTab === 'estimator'
+                    ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
+                    : 'text-slate-600 hover:text-cyan-900'
+                }`}
+              >
+                Price Estimator
+              </button>
+              <button
+                onClick={() => setActiveTab('tracker')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  activeTab === 'tracker'
+                    ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
+                    : 'text-slate-600 hover:text-cyan-900'
+                }`}
+              >
+                Live Order Tracker
+              </button>
+              <button
+                onClick={() => setActiveTab('about')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1 ${
+                  activeTab === 'about'
+                    ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
+                    : 'text-slate-600 hover:text-cyan-900'
+                }`}
+              >
+                <MapPin className="w-3.5 h-3.5" /> About & Location
+              </button>
+              <button
+                onClick={() => setActiveTab('menu')}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  activeTab === 'menu'
+                    ? 'bg-cyan-500 text-white shadow-md shadow-cyan-500/30'
+                    : 'text-slate-600 hover:text-cyan-900'
+                }`}
+              >
+                Price Menu
+              </button>
+            </div>
           </nav>
         </div>
       </header>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 p-6 max-w-7xl w-full mx-auto space-y-12">
+      <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto space-y-12">
         
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
@@ -319,7 +320,7 @@ export default function App() {
 
         {/* PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
-          <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Detailed Quote Generator</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
@@ -374,14 +375,14 @@ export default function App() {
 
         {/* ORDER TRACKER TAB */}
         {activeTab === 'tracker' && (
-          <div className="max-w-xl mx-auto bg-white border border-cyan-100 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live System</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-1">Track Your Order</h2>
               <p className="text-slate-500 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
             </div>
 
-            <form onSubmit={handleTrackOrder} className="flex gap-3">
+            <form onSubmit={handleTrackOrder} className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
                 placeholder="e.g. 7244"
@@ -398,7 +399,6 @@ export default function App() {
               </button>
             </form>
 
-            {/* Inline Error Message (Clean & Professional) */}
             {errorMessage && (
               <div className="bg-rose-50 border-2 border-rose-200 text-rose-800 rounded-2xl p-4 flex items-center gap-3 text-sm font-medium animate-fade-in shadow-sm">
                 <AlertCircle className="w-5 h-5 text-rose-500 shrink-0" />
@@ -433,7 +433,7 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white border border-cyan-100 rounded-3xl p-8 space-y-6 shadow-xl flex flex-col justify-between">
+              <div className="bg-white border border-cyan-100 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-cyan-100 border border-cyan-200 flex items-center justify-center text-cyan-600 shrink-0">
@@ -481,7 +481,7 @@ export default function App() {
                 </button>
               </div>
 
-              <div className="bg-white border border-cyan-100 rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
+              <div className="bg-white border border-cyan-100 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/80 to-teal-50/40 z-10 pointer-events-none"></div>
 
                 <div className="relative z-20 flex justify-between items-start">
@@ -518,7 +518,7 @@ export default function App() {
 
         {/* PRICE MENU TAB */}
         {activeTab === 'menu' && (
-          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Transparent Rates</span>
               <h2 className="text-2xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
