@@ -5,12 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        alicoCyan: '#00A8D6',
-        alicoTeal: '#5FB3B3',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 }
