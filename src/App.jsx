@@ -11,7 +11,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import { db } from './firebase';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import logoImage from './logo.png';
 
 export default function App() {
@@ -93,37 +93,43 @@ export default function App() {
 
   const handleTrackOrder = async (e) => {
     e.preventDefault();
-    const cleanQuery = ticketQuery.trim().toUpperCase();
+    const cleanQuery = ticketQuery.trim();
     if (!cleanQuery) return;
 
     setLoadingOrder(true);
     try {
-      const q = query(collection(db, 'orders'), where('tagId', '==', cleanQuery));
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(collection(db, 'orders'));
+      let foundOrder = null;
 
-      if (!querySnapshot.empty) {
-        const docSnap = querySnapshot.docs[0];
-        setSearchedOrder({
-          id: docSnap.data().tagId || docSnap.id,
-          ...docSnap.data()
-        });
-      } else {
-        const docRef = doc(db, 'orders', cleanQuery);
-        const docSnap = await getDoc(docRef);
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const docId = docSnap.id.toString();
+        const details = data.details || {};
+        const detailsId = details.id ? details.id.toString() : '';
+        const tagIdVal = data.tagId ? data.tagId.toString() : '';
 
-        if (docSnap.exists()) {
-          setSearchedOrder({
-            id: docSnap.id,
-            ...docSnap.data()
-          });
-        } else {
-          setSearchedOrder(null);
-          alert("Ticket not found. Please check your ticket number.");
+        if (docId === cleanQuery || detailsId === cleanQuery || tagIdVal === cleanQuery || data.tag === cleanQuery) {
+          foundOrder = {
+            id: detailsId || tagIdVal || docSnap.id,
+            service: details.serviceType || data.service || 'Alteration',
+            status: details.status || data.status || 'Pending',
+            date: details.dueDate || data.date || data.readyDate || 'Ready Soon',
+            total: details.total || data.total || '0.00',
+            phone: details.phone || data.phone || 'N/A',
+            ...data
+          };
         }
+      });
+
+      if (foundOrder) {
+        setSearchedOrder(foundOrder);
+      } else {
+        setSearchedOrder(null);
+        alert("Ticket not found. Please check your ticket number.");
       }
     } catch (error) {
       console.error("Error searching ticket:", error);
-      alert("Error fetching order status. Please try again.");
+      alert("Error fetching order status. Please check your connection.");
     } finally {
       setLoadingOrder(false);
     }
@@ -381,13 +387,14 @@ export default function App() {
             {searchedOrder && (
               <div className="bg-cyan-50/60 border-2 border-cyan-200 rounded-2xl p-6 space-y-4 shadow-sm animate-fade-in">
                 <div className="flex justify-between items-center pb-3 border-b border-cyan-200">
-                  <span className="font-mono text-cyan-900 font-extrabold text-base">Ticket: {searchedOrder.id}</span>
-                  <span className="bg-cyan-500 text-white text-xs px-3.5 py-1 rounded-full font-bold shadow-sm">Live Status</span>
+                  <span className="font-mono text-cyan-900 font-extrabold text-base">Ticket: #{searchedOrder.id}</span>
+                  <span className="bg-cyan-500 text-white text-xs px-3.5 py-1 rounded-full font-bold shadow-sm">{searchedOrder.status || 'Pending'}</span>
                 </div>
                 <div className="space-y-2.5 text-sm">
                   <p><strong className="text-slate-500">Service:</strong> <span className="text-slate-900 font-semibold">{searchedOrder.service || searchedOrder.item || 'Tailoring & Alterations'}</span></p>
-                  <p><strong className="text-slate-500">Current Status:</strong> <span className="text-cyan-700 font-extrabold text-base">{searchedOrder.status || 'In Progress'}</span></p>
-                  <p><strong className="text-slate-500">Target Ready Date:</strong> <span className="text-slate-900 font-medium">{searchedOrder.date || searchedOrder.readyDate || 'Ready Soon'}</span></p>
+                  <p><strong className="text-slate-500">Phone:</strong> <span className="text-slate-900 font-medium">{searchedOrder.phone || searchedOrder.phoneNumber || 'N/A'}</span></p>
+                  <p><strong className="text-slate-500">Target Ready Date:</strong> <span className="text-cyan-700 font-extrabold">{searchedOrder.date || searchedOrder.readyDate || 'Ready Soon'}</span></p>
+                  <p><strong className="text-slate-500">Total:</strong> <span className="text-slate-900 font-bold">€{searchedOrder.total || searchedOrder.price || '0.00'}</span></p>
                 </div>
               </div>
             )}
