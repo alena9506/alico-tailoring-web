@@ -158,79 +158,81 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50/50 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50/50 text-slate-800 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
       
       {/* TOP ANNOUNCEMENT BAR */}
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-[11px] sm:text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
+      <div className="bg-gradient-to-r from-blue-600 to-sky-600 text-white text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
         <span>📍 Grafton Street Area, Dublin</span>
         <span className="hidden sm:inline">•</span>
         <span>Professional Laundry, Dry Cleaning & Precision Alterations</span>
       </div>
 
       {/* HEADER & NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/95 border-b border-sky-100 backdrop-blur-md px-4 sm:px-6 py-3.5 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-3">
+      <header className="sticky top-0 z-50 bg-white/95 border-b border-sky-200 backdrop-blur-md px-4 sm:px-8 py-4 shadow-md">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
           
-          <div className="flex items-center justify-between w-full lg:w-auto cursor-pointer group" onClick={() => setActiveTab('overview')}>
-            <div className="h-10 flex items-center justify-center">
-              <img 
-                src={logoImage} 
-                alt="ALiCo Logo" 
-                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform" 
-              />
+          {/* Prominent, Larger Logo */}
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
+            <img 
+              src={logoImage} 
+              alt="ALiCo Logo" 
+              className="h-14 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform" 
+            />
+            <div>
+              <h1 className="text-lg sm:text-xl font-extrabold text-blue-900 tracking-tight">ALiCo</h1>
+              <p className="text-[11px] text-blue-600 font-bold uppercase tracking-wider">Laundry & Tailoring Studio</p>
             </div>
-            <p className="text-[11px] text-blue-700 font-bold tracking-widest uppercase lg:hidden">Laundry & Tailoring</p>
           </div>
 
-          {/* Clean, Light Blue/Aqua Navigation Bar */}
-          <nav className="bg-sky-50 p-1.5 rounded-2xl border border-sky-200 shadow-inner w-full lg:w-auto">
+          {/* Navigation Bar */}
+          <nav className="bg-sky-100/80 p-1.5 rounded-2xl border border-sky-200 shadow-inner w-full lg:w-auto">
             <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'overview'
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
+                    : 'text-slate-700 hover:text-blue-900 hover:bg-sky-200/60'
                 }`}
               >
                 Overview
               </button>
               <button
                 onClick={() => setActiveTab('estimator')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'estimator'
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
+                    : 'text-slate-700 hover:text-blue-900 hover:bg-sky-200/60'
                 }`}
               >
                 Price Estimator
               </button>
               <button
                 onClick={() => setActiveTab('tracker')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'tracker'
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
+                    : 'text-slate-700 hover:text-blue-900 hover:bg-sky-200/60'
                 }`}
               >
                 Live Tracker
               </button>
               <button
                 onClick={() => setActiveTab('about')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
                   activeTab === 'about'
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
+                    : 'text-slate-700 hover:text-blue-900 hover:bg-sky-200/60'
                 }`}
               >
                 <MapPin className="w-3.5 h-3.5 shrink-0" /> Studio
               </button>
               <button
                 onClick={() => setActiveTab('menu')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
                   activeTab === 'menu'
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
-                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
+                    : 'text-slate-700 hover:text-blue-900 hover:bg-sky-200/60'
                 }`}
               >
                 Price Menu
@@ -246,47 +248,59 @@ export default function App() {
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
           <div className="space-y-16 py-4">
-            {/* HERO SECTION */}
-            <div className="bg-gradient-to-br from-blue-500 via-sky-500 to-cyan-500 text-white border border-blue-400 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
-              
-              <div className="max-w-2xl space-y-6 relative z-10 text-left">
-                <span className="inline-flex items-center gap-2 bg-white/20 border border-white/30 text-white text-xs px-4 py-1.5 rounded-full font-bold uppercase tracking-wider backdrop-blur-sm">
-                  <Waves className="w-4 h-4 text-cyan-100" /> Dublin's Premier Laundry & Tailoring Hub
+            
+            {/* HERO BANNER WITH SEWING & LAUNDRY IMAGERY */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-xl">
+              <div className="space-y-6 text-left">
+                <span className="inline-flex items-center gap-2 bg-sky-100 text-blue-800 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider">
+                  <Waves className="w-4 h-4 text-blue-600" /> Dublin City Centre Studio
                 </span>
                 
-                <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                  Expert Laundry Care & <span className="text-cyan-100 underline decoration-cyan-300">Precision Tailoring</span>
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                  Expert Laundry & <span className="text-blue-600">Precision Tailoring</span>
                 </h1>
                 
-                <p className="text-sky-50 text-base sm:text-lg leading-relaxed font-normal">
-                  Welcome to ALiCo. Conveniently located near Grafton Street, we provide professional wash, dry & fold, eco-friendly dry cleaning, and expert garment alterations with real-time digital tracking.
+                <p className="text-slate-600 text-base leading-relaxed">
+                  Welcome to ALiCo. Located near Grafton Street, we combine commercial laundry washers & dryers with master tailoring. Drop off your garments for professional washing, dry cleaning, or expert alterations today.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <button
                     onClick={() => setActiveTab('estimator')}
-                    className="bg-white hover:bg-sky-50 text-blue-900 font-extrabold px-8 py-4 rounded-2xl transition shadow-xl flex items-center gap-2 text-sm"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-blue-600/25 text-sm"
                   >
                     Calculate Estimate
                   </button>
                   <button
                     onClick={() => setActiveTab('tracker')}
-                    className="bg-blue-900/30 hover:bg-blue-900/50 border-2 border-white/40 text-white font-extrabold px-8 py-4 rounded-2xl transition shadow-sm text-sm backdrop-blur-sm"
+                    className="bg-sky-50 hover:bg-sky-100 border-2 border-blue-200 text-blue-900 font-extrabold px-7 py-3.5 rounded-2xl transition shadow-sm text-sm"
                   >
-                    Track Your Order
+                    Track My Order
                   </button>
                 </div>
+              </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/20 text-xs font-bold text-sky-100">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-white" /> Premium Fabric Care
+              {/* Real Business Visuals Grid (Washing Machines & Sewing) */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
+                  <img 
+                    src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=600&q=80" 
+                    alt="Commercial Laundry Washing and Drying Machines" 
+                    className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Wash & Dry Hub</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-white" /> Same-Day Available
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <PackageCheck className="w-4 h-4 text-white" /> Instant Ticket Tracking
+                </div>
+
+                <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
+                  <img 
+                    src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80" 
+                    alt="Professional Sewing Machine and Tailoring Alterations" 
+                    className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Master Tailoring</span>
                   </div>
                 </div>
               </div>
@@ -294,8 +308,8 @@ export default function App() {
 
             {/* SERVICES CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white border border-sky-100 hover:border-blue-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition shadow-inner">
+              <div className="bg-white border border-sky-200 hover:border-blue-500 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
                   <Shirt className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900">Laundry & Dry Cleaning</h3>
@@ -304,8 +318,8 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-white border border-sky-100 hover:border-blue-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition shadow-inner">
+              <div className="bg-white border border-sky-200 hover:border-blue-500 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
                   <Scissors className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900">Precision Alterations</h3>
@@ -314,8 +328,8 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="bg-white border border-sky-100 hover:border-blue-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
-                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition shadow-inner">
+              <div className="bg-white border border-sky-200 hover:border-blue-500 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
                   <Clock className="w-7 h-7" />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900">Live Status Tracker</h3>
@@ -369,7 +383,7 @@ export default function App() {
                 </select>
               </div>
 
-              <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg shadow-blue-500/20">
+              <div className="bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg shadow-blue-500/20">
                 <div>
                   <p className="text-xs uppercase font-bold tracking-widest text-sky-100">Estimated Price</p>
                   <p className="text-4xl font-extrabold mt-1">€{estimatePrice}</p>
