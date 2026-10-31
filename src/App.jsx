@@ -158,17 +158,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans selection:bg-cyan-500 selection:text-slate-950">
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50/50 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white">
       
       {/* TOP ANNOUNCEMENT BAR */}
-      <div className="bg-blue-950 text-cyan-300 text-[11px] sm:text-xs py-2 px-4 text-center font-medium tracking-wide flex justify-center items-center gap-4 border-b border-blue-900">
+      <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-[11px] sm:text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
         <span>📍 Grafton Street Area, Dublin</span>
         <span className="hidden sm:inline">•</span>
         <span>Professional Laundry, Dry Cleaning & Precision Alterations</span>
       </div>
 
       {/* HEADER & NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-slate-900/95 border-b border-blue-900/50 backdrop-blur-md px-4 sm:px-6 py-3.5 shadow-md">
+      <header className="sticky top-0 z-50 bg-white/95 border-b border-sky-100 backdrop-blur-md px-4 sm:px-6 py-3.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-3">
           
           <div className="flex items-center justify-between w-full lg:w-auto cursor-pointer group" onClick={() => setActiveTab('overview')}>
@@ -179,18 +179,18 @@ export default function App() {
                 className="h-10 w-auto object-contain group-hover:scale-105 transition-transform" 
               />
             </div>
-            <p className="text-[11px] text-cyan-400 font-bold tracking-widest uppercase lg:hidden">Laundry & Tailoring</p>
+            <p className="text-[11px] text-blue-700 font-bold tracking-widest uppercase lg:hidden">Laundry & Tailoring</p>
           </div>
 
-          {/* Professional Blue/Aqua Navigation Bar */}
-          <nav className="bg-slate-800 p-1.5 rounded-2xl border border-blue-900/60 shadow-inner w-full lg:w-auto">
+          {/* Clean, Light Blue/Aqua Navigation Bar */}
+          <nav className="bg-sky-50 p-1.5 rounded-2xl border border-sky-200 shadow-inner w-full lg:w-auto">
             <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1">
               <button
                 onClick={() => setActiveTab('overview')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'overview'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
                 }`}
               >
                 Overview
@@ -199,8 +199,8 @@ export default function App() {
                 onClick={() => setActiveTab('estimator')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'estimator'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
                 }`}
               >
                 Price Estimator
@@ -209,8 +209,8 @@ export default function App() {
                 onClick={() => setActiveTab('tracker')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
                   activeTab === 'tracker'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
                 }`}
               >
                 Live Tracker
@@ -219,8 +219,8 @@ export default function App() {
                 onClick={() => setActiveTab('about')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
                   activeTab === 'about'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
                 }`}
               >
                 <MapPin className="w-3.5 h-3.5 shrink-0" /> Studio
@@ -229,8 +229,8 @@ export default function App() {
                 onClick={() => setActiveTab('menu')}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
                   activeTab === 'menu'
-                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
+                    : 'text-slate-600 hover:text-blue-900 hover:bg-sky-100/60'
                 }`}
               >
                 Price Menu
@@ -247,46 +247,46 @@ export default function App() {
         {activeTab === 'overview' && (
           <div className="space-y-16 py-4">
             {/* HERO SECTION */}
-            <div className="bg-gradient-to-br from-blue-950 via-slate-800 to-slate-900 border border-blue-900/60 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="bg-gradient-to-br from-blue-500 via-sky-500 to-cyan-500 text-white border border-blue-400 rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
               
               <div className="max-w-2xl space-y-6 relative z-10 text-left">
-                <span className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs px-4 py-1.5 rounded-full font-bold uppercase tracking-wider">
-                  <Waves className="w-4 h-4 text-cyan-400" /> Dublin's Premier Laundry & Tailoring Hub
+                <span className="inline-flex items-center gap-2 bg-white/20 border border-white/30 text-white text-xs px-4 py-1.5 rounded-full font-bold uppercase tracking-wider backdrop-blur-sm">
+                  <Waves className="w-4 h-4 text-cyan-100" /> Dublin's Premier Laundry & Tailoring Hub
                 </span>
                 
                 <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                  Expert Laundry Care & <span className="text-cyan-400">Precision Tailoring</span>
+                  Expert Laundry Care & <span className="text-cyan-100 underline decoration-cyan-300">Precision Tailoring</span>
                 </h1>
                 
-                <p className="text-slate-300 text-base sm:text-lg leading-relaxed font-normal">
+                <p className="text-sky-50 text-base sm:text-lg leading-relaxed font-normal">
                   Welcome to ALiCo. Conveniently located near Grafton Street, we provide professional wash, dry & fold, eco-friendly dry cleaning, and expert garment alterations with real-time digital tracking.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <button
                     onClick={() => setActiveTab('estimator')}
-                    className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-8 py-4 rounded-2xl transition shadow-lg shadow-cyan-500/25 flex items-center gap-2 text-sm"
+                    className="bg-white hover:bg-sky-50 text-blue-900 font-extrabold px-8 py-4 rounded-2xl transition shadow-xl flex items-center gap-2 text-sm"
                   >
                     Calculate Estimate
                   </button>
                   <button
                     onClick={() => setActiveTab('tracker')}
-                    className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold px-8 py-4 rounded-2xl transition shadow-sm text-sm"
+                    className="bg-blue-900/30 hover:bg-blue-900/50 border-2 border-white/40 text-white font-extrabold px-8 py-4 rounded-2xl transition shadow-sm text-sm backdrop-blur-sm"
                   >
                     Track Your Order
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-blue-900/60 text-xs font-semibold text-slate-300">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-6 border-t border-white/20 text-xs font-bold text-sky-100">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-cyan-400" /> Premium Fabric Care
+                    <ShieldCheck className="w-4 h-4 text-white" /> Premium Fabric Care
                   </div>
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-cyan-400" /> Same-Day Available
+                    <Sparkles className="w-4 h-4 text-white" /> Same-Day Available
                   </div>
                   <div className="flex items-center gap-2">
-                    <PackageCheck className="w-4 h-4 text-cyan-400" /> Instant Ticket Tracking
+                    <PackageCheck className="w-4 h-4 text-white" /> Instant Ticket Tracking
                   </div>
                 </div>
               </div>
@@ -294,32 +294,32 @@ export default function App() {
 
             {/* SERVICES CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-slate-800/80 border border-blue-900/40 hover:border-cyan-500/50 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-slate-950/20 group">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-slate-950 transition">
+              <div className="bg-white border border-sky-100 hover:border-blue-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition shadow-inner">
                   <Shirt className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Laundry & Dry Cleaning</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900">Laundry & Dry Cleaning</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
                   Professional wash, dry & fold by weight, delicate dry cleaning for suits and coats, and deep-clean care for heavy duvets and linens.
                 </p>
               </div>
 
-              <div className="bg-slate-800/80 border border-blue-900/40 hover:border-cyan-500/50 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-slate-950/20 group">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-slate-950 transition">
+              <div className="bg-white border border-sky-100 hover:border-blue-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition shadow-inner">
                   <Scissors className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Precision Alterations</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900">Precision Alterations</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
                   Expert trouser hemming, waist adjustments, jacket resizing, dress refitting, and durable zip replacements done to perfection.
                 </p>
               </div>
 
-              <div className="bg-slate-800/80 border border-blue-900/40 hover:border-cyan-500/50 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-slate-950/20 group">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:bg-cyan-500 group-hover:text-slate-950 transition">
+              <div className="bg-white border border-sky-100 hover:border-blue-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-blue-950/5 group">
+                <div className="w-14 h-14 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition shadow-inner">
                   <Clock className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold text-white">Live Status Tracker</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-slate-900">Live Status Tracker</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">
                   Check your ticket code online anytime to instantly view real-time progress updates on when your garments are ready for collection.
                 </p>
               </div>
@@ -329,20 +329,20 @@ export default function App() {
 
         {/* PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
-          <div className="max-w-2xl mx-auto bg-slate-800 border border-blue-900/60 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-2xl mx-auto bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Transparent Quote Generator</span>
-              <h2 className="text-3xl font-bold text-white mt-1">Interactive Price Estimator</h2>
-              <p className="text-slate-400 text-sm">Select your garment or laundry service for an instant price estimate.</p>
+              <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Transparent Quote Generator</span>
+              <h2 className="text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
+              <p className="text-slate-600 text-sm">Select your garment or laundry service for an instant price estimate.</p>
             </div>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">1. Select Garment or Service Category</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">1. Select Garment or Service Category</label>
                 <select
                   value={selectedGarment}
                   onChange={(e) => handleGarmentChange(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-500 text-white shadow-inner font-medium"
+                  className="w-full bg-sky-50/50 border border-sky-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-blue-600 text-slate-900 shadow-inner font-medium"
                 >
                   <option value="laundry">Laundry & Dry Cleaning Services</option>
                   <option value="trousers">Trousers / Jeans</option>
@@ -355,11 +355,11 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">2. Select Specific Service / Alteration</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">2. Select Specific Service / Alteration</label>
                 <select
                   value={selectedAlteration}
                   onChange={(e) => handleAlterationChange(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-500 text-white shadow-inner font-medium"
+                  className="w-full bg-sky-50/50 border border-sky-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-blue-600 text-slate-900 shadow-inner font-medium"
                 >
                   {alterationOptions[selectedGarment].map((alt, index) => (
                     <option key={index} value={`${alt.name} (€${alt.price.toFixed(2)})`}>
@@ -369,12 +369,12 @@ export default function App() {
                 </select>
               </div>
 
-              <div className="bg-gradient-to-r from-blue-900 to-cyan-700 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg">
+              <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg shadow-blue-500/20">
                 <div>
-                  <p className="text-xs uppercase font-bold tracking-widest text-cyan-200">Estimated Price</p>
+                  <p className="text-xs uppercase font-bold tracking-widest text-sky-100">Estimated Price</p>
                   <p className="text-4xl font-extrabold mt-1">€{estimatePrice}</p>
                 </div>
-                <span className="text-xs text-slate-100 text-right max-w-[190px] leading-relaxed font-medium">
+                <span className="text-xs text-sky-100 text-right max-w-[190px] leading-relaxed font-medium">
                   Final quotation confirmed upon drop-off at Grafton Street.
                 </span>
               </div>
@@ -384,11 +384,11 @@ export default function App() {
 
         {/* ORDER TRACKER TAB */}
         {activeTab === 'tracker' && (
-          <div className="max-w-xl mx-auto bg-slate-800 border border-blue-900/60 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-xl mx-auto bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Live System</span>
-              <h2 className="text-3xl font-bold text-white mt-1">Track Your Order</h2>
-              <p className="text-slate-400 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
+              <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Live System</span>
+              <h2 className="text-3xl font-bold text-slate-900 mt-1">Track Your Order</h2>
+              <p className="text-slate-600 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
             </div>
 
             <form onSubmit={handleTrackOrder} className="flex flex-col sm:flex-row gap-3">
@@ -397,35 +397,35 @@ export default function App() {
                 placeholder="e.g. 7244"
                 value={ticketQuery}
                 onChange={(e) => setTicketQuery(e.target.value)}
-                className="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-cyan-500 uppercase tracking-wider font-bold shadow-inner"
+                className="flex-1 bg-sky-50/50 border border-sky-200 rounded-2xl px-4 py-3.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 uppercase tracking-wider font-bold shadow-inner"
               />
               <button
                 type="submit"
                 disabled={loadingOrder}
-                className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-7 py-3.5 rounded-2xl transition shadow-lg disabled:opacity-50 text-sm"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-blue-600/25 disabled:opacity-50 text-sm"
               >
                 {loadingOrder ? 'Searching...' : 'Search Ticket'}
               </button>
             </form>
 
             {errorMessage && (
-              <div className="bg-rose-950/60 border-2 border-rose-800 text-rose-200 rounded-2xl p-4 flex items-center gap-3 text-sm font-medium shadow-sm">
-                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
+              <div className="bg-rose-50 border-2 border-rose-200 text-rose-800 rounded-2xl p-4 flex items-center gap-3 text-sm font-medium shadow-sm">
+                <AlertCircle className="w-5 h-5 text-rose-500 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
             )}
 
             {searchedOrder && (
-              <div className="bg-slate-900 border-2 border-cyan-500/50 rounded-2xl p-6 space-y-4 shadow-sm">
-                <div className="flex justify-between items-center pb-3 border-b border-slate-800">
-                  <span className="font-mono text-cyan-400 font-extrabold text-base">Ticket: #{searchedOrder.id}</span>
-                  <span className="bg-cyan-500 text-slate-950 text-xs px-3.5 py-1.5 rounded-full font-extrabold shadow-sm">{searchedOrder.status || 'Pending'}</span>
+              <div className="bg-sky-50/70 border-2 border-blue-300 rounded-2xl p-6 space-y-4 shadow-sm">
+                <div className="flex justify-between items-center pb-3 border-b border-blue-200">
+                  <span className="font-mono text-blue-900 font-extrabold text-base">Ticket: #{searchedOrder.id}</span>
+                  <span className="bg-blue-600 text-white text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm">{searchedOrder.status || 'Pending'}</span>
                 </div>
-                <div className="space-y-2.5 text-sm font-medium text-slate-300">
-                  <p><strong className="text-slate-400">Service:</strong> <span className="text-white">{searchedOrder.service || searchedOrder.item || 'Laundry & Tailoring'}</span></p>
-                  <p><strong className="text-slate-400">Phone:</strong> <span className="text-white">{searchedOrder.phone || searchedOrder.phoneNumber || 'N/A'}</span></p>
-                  <p><strong className="text-slate-400">Target Ready Date:</strong> <span className="text-cyan-400 font-bold">{searchedOrder.date}</span></p>
-                  <p><strong className="text-slate-400">Total:</strong> <span className="text-white font-bold">€{searchedOrder.total || searchedOrder.price || '0.00'}</span></p>
+                <div className="space-y-2.5 text-sm font-medium text-slate-700">
+                  <p><strong className="text-slate-500">Service:</strong> <span className="text-slate-900">{searchedOrder.service || searchedOrder.item || 'Laundry & Tailoring'}</span></p>
+                  <p><strong className="text-slate-500">Phone:</strong> <span className="text-slate-900">{searchedOrder.phone || searchedOrder.phoneNumber || 'N/A'}</span></p>
+                  <p><strong className="text-slate-500">Target Ready Date:</strong> <span className="text-blue-700 font-bold">{searchedOrder.date}</span></p>
+                  <p><strong className="text-slate-500">Total:</strong> <span className="text-slate-900 font-bold">€{searchedOrder.total || searchedOrder.price || '0.00'}</span></p>
                 </div>
               </div>
             )}
@@ -436,21 +436,21 @@ export default function App() {
         {activeTab === 'about' && (
           <div className="max-w-4xl mx-auto space-y-8 py-2">
             <div>
-              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Dublin Studio</span>
-              <h2 className="text-3xl font-bold text-white tracking-tight mt-1">About ALiCo & Location</h2>
-              <p className="text-slate-400 text-sm">Visit our workshop in the Grafton Street area or get directions instantly.</p>
+              <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Dublin Studio</span>
+              <h2 className="text-3xl font-bold text-slate-900 tracking-tight mt-1">About ALiCo & Location</h2>
+              <p className="text-slate-600 text-sm">Visit our workshop in the Grafton Street area or get directions instantly.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-slate-800 border border-blue-900/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
+              <div className="bg-white border border-sky-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 shrink-0">
                       <MapPin className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-white text-base">Studio Location</h3>
-                      <p className="text-slate-400 text-sm mt-1 leading-relaxed">
+                      <h3 className="font-bold text-slate-900 text-base">Studio Location</h3>
+                      <p className="text-slate-600 text-sm mt-1 leading-relaxed">
                         Grafton Street Area<br />
                         Dublin, Ireland
                       </p>
@@ -458,12 +458,12 @@ export default function App() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 shrink-0">
                       <Clock className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-white text-base">Working Hours</h3>
-                      <p className="text-slate-400 text-sm mt-1 leading-relaxed">
+                      <h3 className="font-bold text-slate-900 text-base">Working Hours</h3>
+                      <p className="text-slate-600 text-sm mt-1 leading-relaxed">
                         Monday – Friday: 9:00 AM – 6:30 PM<br />
                         Saturday: 10:00 AM – 5:00 PM<br />
                         Sunday: Closed
@@ -472,52 +472,52 @@ export default function App() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 shrink-0">
                       <Phone className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-white text-base">Contact Phone</h3>
-                      <p className="text-slate-400 text-sm mt-1">+353 (0)1 XXX XXXX</p>
+                      <h3 className="font-bold text-slate-900 text-base">Contact Phone</h3>
+                      <p className="text-slate-600 text-sm mt-1">+353 (0)1 XXX XXXX</p>
                     </div>
                   </div>
                 </div>
 
                 <button
                   onClick={openNativeMaps}
-                  className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-4 px-6 rounded-2xl transition shadow-lg flex items-center justify-center gap-2 mt-6 text-sm"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-2xl transition shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 mt-6 text-sm"
                 >
                   <Navigation className="w-4 h-4" /> Get Directions (Apple / Google Maps)
                 </button>
               </div>
 
-              <div className="bg-slate-800 border border-blue-900/60 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-900/20 z-10 pointer-events-none"></div>
+              <div className="bg-white border border-sky-200 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-sky-50 to-blue-50/50 z-10 pointer-events-none"></div>
 
                 <div className="relative z-20 flex justify-between items-start">
-                  <span className="bg-slate-900 border border-slate-700 text-slate-200 text-xs px-3.5 py-2 rounded-xl font-bold shadow-sm">
+                  <span className="bg-white border border-sky-200 text-slate-700 text-xs px-3.5 py-2 rounded-xl font-bold shadow-sm">
                     📍 Grafton Street, Dublin
                   </span>
-                  <span className="bg-cyan-500 text-slate-950 text-xs px-3.5 py-2 rounded-xl font-extrabold flex items-center gap-2 shadow-md">
-                    <span className="w-2 h-2 rounded-full bg-slate-950 animate-ping"></span> Open Now
+                  <span className="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-xl font-extrabold flex items-center gap-2 shadow-md">
+                    <span className="w-2 h-2 rounded-full bg-white animate-ping"></span> Open Now
                   </span>
                 </div>
 
                 <div className="relative z-25 my-auto py-10 text-center space-y-4">
-                  <div className="w-20 h-20 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center mx-auto shadow-xl">
+                  <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto shadow-xl">
                     <MapPin className="w-10 h-10" />
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-white text-xl">ALiCo Laundry & Tailoring</h4>
-                    <p className="text-xs text-cyan-400 mt-1 font-semibold uppercase tracking-wider">Heart of Dublin City Centre</p>
+                    <h4 className="font-extrabold text-slate-900 text-xl">ALiCo Laundry & Tailoring</h4>
+                    <p className="text-xs text-blue-600 mt-1 font-bold uppercase tracking-wider">Heart of Dublin City Centre</p>
                   </div>
                 </div>
 
                 <div className="relative z-20">
                   <button
                     onClick={openNativeMaps}
-                    className="w-full bg-slate-900 hover:bg-slate-700 border border-slate-700 text-white font-bold py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 text-sm shadow-sm"
+                    className="w-full bg-sky-50 hover:bg-sky-100 border border-sky-200 text-blue-900 font-bold py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 text-sm shadow-sm"
                   >
-                    Open in Native Maps App <ExternalLink className="w-4 h-4 text-cyan-400" />
+                    Open in Native Maps App <ExternalLink className="w-4 h-4 text-blue-600" />
                   </button>
                 </div>
               </div>
@@ -527,45 +527,45 @@ export default function App() {
 
         {/* PRICE MENU TAB */}
         {activeTab === 'menu' && (
-          <div className="max-w-3xl mx-auto bg-slate-800 border border-blue-900/60 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-3xl mx-auto bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Transparent Rates</span>
-              <h2 className="text-3xl font-bold text-white mt-1">Standard Price Menu</h2>
-              <p className="text-slate-400 text-sm">Professional laundry care and alterations pricing guide.</p>
+              <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Transparent Rates</span>
+              <h2 className="text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
+              <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide.</p>
             </div>
 
-            <div className="divide-y divide-slate-700 text-sm font-medium">
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Wash, Dry & Fold (Per Kg)</span>
-                <span className="font-extrabold text-cyan-400 text-base">€6.50</span>
+            <div className="divide-y divide-sky-100 text-sm font-medium">
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Wash, Dry & Fold (Per Kg)</span>
+                <span className="font-extrabold text-blue-600 text-base">€6.50</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Dry Cleaning (Standard Suit / Coat)</span>
-                <span className="font-extrabold text-cyan-400 text-base">€14.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Dry Cleaning (Standard Suit / Coat)</span>
+                <span className="font-extrabold text-blue-600 text-base">€14.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Duvet / Heavy Bedding Care</span>
-                <span className="font-extrabold text-cyan-400 text-base">€22.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Duvet / Heavy Bedding Care</span>
+                <span className="font-extrabold text-blue-600 text-base">€22.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Trousers Hemming / Adjustment</span>
-                <span className="font-extrabold text-cyan-400 text-base">€12.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Trousers Hemming / Adjustment</span>
+                <span className="font-extrabold text-blue-600 text-base">€12.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Trousers Waist Take-in</span>
-                <span className="font-extrabold text-cyan-400 text-base">€16.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Trousers Waist Take-in</span>
+                <span className="font-extrabold text-blue-600 text-base">€16.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Jacket Sleeve Shortening</span>
-                <span className="font-extrabold text-cyan-400 text-base">€22.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Jacket Sleeve Shortening</span>
+                <span className="font-extrabold text-blue-600 text-base">€22.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Dress Hem Shortening</span>
-                <span className="font-extrabold text-cyan-400 text-base">€25.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Dress Hem Shortening</span>
+                <span className="font-extrabold text-blue-600 text-base">€25.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-slate-700/50 px-3 rounded-xl transition">
-                <span className="text-white">Zip Replacement (Jacket / Jeans)</span>
-                <span className="font-extrabold text-cyan-400 text-base">€18.00</span>
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+                <span className="text-slate-800">Zip Replacement (Jacket / Jeans)</span>
+                <span className="font-extrabold text-blue-600 text-base">€18.00</span>
               </div>
             </div>
           </div>
@@ -574,7 +574,7 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-blue-900/50 bg-slate-950 py-6 text-center text-xs text-slate-400 font-medium">
+      <footer className="border-t border-sky-100 bg-white py-6 text-center text-xs text-slate-500 font-medium">
         <p>© {new Date().getFullYear()} ALiCo Master Laundry & Tailoring. Grafton Street Area, Dublin, Ireland.</p>
       </footer>
     </div>
