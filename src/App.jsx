@@ -249,11 +249,11 @@ export default function App() {
         {activeTab === 'overview' && (
           <div className="space-y-16 py-4">
             
-            {/* HERO BANNER WITH SCISSORS / CUTTING & WOMAN SEWING IMAGERY */}
+            {/* HERO BANNER WITH LAUNDRY MACHINE & TAILORING/MEASURING IMAGERY */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
                 <span className="inline-flex items-center gap-2 bg-sky-100 text-blue-800 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider">
-                  <Scissors className="w-4 h-4 text-blue-600" /> Dublin City Centre Studio
+                  <Waves className="w-4 h-4 text-blue-600" /> Dublin City Centre Studio
                 </span>
                 
                 <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
@@ -261,7 +261,7 @@ export default function App() {
                 </h1>
                 
                 <p className="text-slate-600 text-base leading-relaxed">
-                  Welcome to ALiCo. Located near Grafton Street, we combine professional fabric cutting and sewing with expert garment alterations and laundry care.
+                  Welcome to ALiCo. Located near Grafton Street, we combine commercial laundry washers & dryers with expert garment alterations and measuring services.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
@@ -280,27 +280,27 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Real Tailoring Visuals: Scissors/Cutting & Woman Sewing */}
+              {/* Visuals: 1. Commercial Washers/Dryers | 2. Tailor Measuring Tape & Alterations */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80" 
-                    alt="Tailor cutting fabric with professional scissors" 
+                    src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=600&q=80" 
+                    alt="Commercial laundry washing and drying machines" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Cutting & Sizing</span>
+                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Wash & Dry Hub</span>
                   </div>
                 </div>
 
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=600&q=80" 
-                    alt="Woman sewing on a professional sewing machine" 
+                    src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80" 
+                    alt="Tailor measuring and altering fabric" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Shirt className="w-3.5 h-3.5 text-cyan-400" /> Machine Stitching</span>
+                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Measuring & Sizing</span>
                   </div>
                 </div>
               </div>
@@ -577,7 +577,7 @@ export default function App() {
                 <span className="text-slate-800">Dress Hem Shortening</span>
                 <span className="font-extrabold text-blue-600 text-base">€25.00</span>
               </div>
-              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
+              <div className="py-4 flex justify-name sm... ">
                 <span className="text-slate-800">Zip Replacement (Jacket / Jeans)</span>
                 <span className="font-extrabold text-blue-600 text-base">€18.00</span>
               </div>
