@@ -249,7 +249,7 @@ export default function App() {
         {activeTab === 'overview' && (
           <div className="space-y-16 py-4">
             
-            {/* HERO BANNER WITH LAUNDRY MACHINE & TAILORING/MEASURING IMAGERY */}
+            {/* HERO BANNER WITH COMMERCIAL LAUNDRY MACHINES & TAILORING MEASURING */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
                 <span className="inline-flex items-center gap-2 bg-sky-100 text-blue-800 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider">
@@ -261,7 +261,7 @@ export default function App() {
                 </h1>
                 
                 <p className="text-slate-600 text-base leading-relaxed">
-                  Welcome to ALiCo. Located near Grafton Street, we combine commercial laundry washers & dryers with expert garment alterations and measuring services.
+                  Welcome to ALiCo. Located near Grafton Street, we combine commercial laundry washers & dryers with professional measuring, marking, and garment alterations.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
@@ -280,7 +280,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visuals: 1. Commercial Washers/Dryers | 2. Tailor Measuring Tape & Alterations */}
+              {/* Visuals: 1. Wash & Dry Hub | 2. Tailoring Measuring & Sizing */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
@@ -295,8 +295,8 @@ export default function App() {
 
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80" 
-                    alt="Tailor measuring and altering fabric" 
+                    src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=600&q=80" 
+                    alt="Tailor measuring and chalking garment alterations" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
@@ -577,7 +577,7 @@ export default function App() {
                 <span className="text-slate-800">Dress Hem Shortening</span>
                 <span className="font-extrabold text-blue-600 text-base">€25.00</span>
               </div>
-              <div className="py-4 flex justify-name sm... ">
+              <div className="py-4 flex justify-between items-center hover:bg-sky-50/60 px-3 rounded-xl transition">
                 <span className="text-slate-800">Zip Replacement (Jacket / Jeans)</span>
                 <span className="font-extrabold text-blue-600 text-base">€18.00</span>
               </div>
