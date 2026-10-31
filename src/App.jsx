@@ -12,7 +12,8 @@ import {
   AlertCircle,
   PackageCheck,
   ShieldCheck,
-  Waves
+  Waves,
+  Star
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -252,9 +253,24 @@ export default function App() {
             {/* HERO BANNER WITH COMMERCIAL LAUNDRY MACHINES & TAILORING MEASURING */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
-                <span className="inline-flex items-center gap-2 bg-sky-100 text-blue-800 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider">
-                  <Waves className="w-4 h-4 text-blue-600" /> Dublin City Centre Studio
-                </span>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="inline-flex items-center gap-2 bg-sky-100 text-blue-800 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider">
+                    <Waves className="w-4 h-4 text-blue-600" /> Dublin City Centre Studio
+                  </span>
+                  
+                  {/* Trustpilot 5-Star Badge */}
+                  <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs px-3 py-1.5 rounded-full font-bold shadow-sm">
+                    <span className="text-emerald-700 font-extrabold">Trustpilot</span>
+                    <div className="flex text-amber-400 gap-0.5">
+                      <Star className="w-3.5 h-3.5 fill-amber-400" />
+                      <Star className="w-3.5 h-3.5 fill-amber-400" />
+                      <Star className="w-3.5 h-3.5 fill-amber-400" />
+                      <Star className="w-3.5 h-3.5 fill-amber-400" />
+                      <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    </div>
+                    <span className="text-slate-600 font-semibold">5.0</span>
+                  </div>
+                </div>
                 
                 <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
                   Expert Laundry & <span className="text-blue-600">Precision Tailoring</span>
