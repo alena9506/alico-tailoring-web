@@ -15,7 +15,8 @@ import {
   Waves,
   Star,
   CreditCard,
-  Info
+  Info,
+  AlertTriangle
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -167,7 +168,7 @@ export default function App() {
       <div className="bg-gradient-to-r from-blue-600 to-sky-600 text-white text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
         <span>📍 Grafton Street Area, Dublin</span>
         <span className="hidden sm:inline">•</span>
-        <span>All Items Must Be Paid Upfront Upon Drop-Off</span>
+        <span>Strict Policy: All Items Must Be Paid Upfront Upon Drop-Off</span>
       </div>
 
       {/* HEADER & NAVIGATION */}
@@ -250,8 +251,30 @@ export default function App() {
         
         {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
-          <div className="space-y-16 py-4">
+          <div className="space-y-12 py-2">
             
+            {/* PROMINENT MANDATORY POLICY BANNER FOR MAXIMUM VISIBILITY */}
+            <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-amber-300">
+              <div className="flex items-start gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-white/25 border border-white/30 flex items-center justify-center text-white shrink-0 shadow-inner">
+                  <AlertTriangle className="w-8 h-8 animate-pulse text-amber-100" />
+                </div>
+                <div className="space-y-1">
+                  <span className="bg-black/20 text-amber-100 font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-widest">Mandatory Store Policy</span>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Payment Upfront Is Required</h3>
+                  <p className="text-amber-50 text-sm leading-relaxed max-w-2xl font-medium">
+                    Please note: No items or garments will be taken, accepted, or processed for laundry or alterations without prior payment upfront upon drop-off. No afterwards payment accepted.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setActiveTab('about')}
+                className="bg-white text-amber-900 font-extrabold px-6 py-3 rounded-2xl transition shadow-lg hover:bg-amber-50 text-sm whitespace-nowrap shrink-0"
+              >
+                View Full Policy
+              </button>
+            </div>
+
             {/* HERO BANNER WITH COMMERCIAL LAUNDRY MACHINES & TAILORING MEASURING */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
@@ -582,7 +605,7 @@ export default function App() {
       {/* FOOTER */}
       <footer className="border-t border-sky-100 bg-white py-6 text-center text-xs text-slate-500 font-medium space-y-1">
         <p>© {new Date().getFullYear()} ALiCo Master Laundry & Tailoring. Grafton Street Area, Dublin, Ireland.</p>
-        <p className="text-blue-600 font-bold">Policy Reminder: All items must be paid upfront upon drop-off.</p>
+        <p className="text-amber-600 font-bold">Strict Policy Reminder: All items must be paid upfront upon drop-off.</p>
       </footer>
     </div>
   );
