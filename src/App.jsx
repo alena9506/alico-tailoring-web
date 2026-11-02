@@ -13,7 +13,9 @@ import {
   PackageCheck,
   ShieldCheck,
   Waves,
-  Star
+  Star,
+  CreditCard,
+  Info
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -165,7 +167,7 @@ export default function App() {
       <div className="bg-gradient-to-r from-blue-600 to-sky-600 text-white text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
         <span>📍 Grafton Street Area, Dublin</span>
         <span className="hidden sm:inline">•</span>
-        <span>Professional Laundry, Dry Cleaning & Precision Alterations</span>
+        <span>All Items Must Be Paid Upfront Upon Drop-Off</span>
       </div>
 
       {/* HEADER & NAVIGATION */}
@@ -226,7 +228,7 @@ export default function App() {
                     : 'text-slate-700 hover:text-blue-900 hover:bg-sky-200/60'
                 }`}
               >
-                <MapPin className="w-3.5 h-3.5 shrink-0" /> Studio
+                <Info className="w-3.5 h-3.5 shrink-0" /> About & Policy
               </button>
               <button
                 onClick={() => setActiveTab('menu')}
@@ -405,7 +407,7 @@ export default function App() {
                   <p className="text-4xl font-extrabold mt-1">€{estimatePrice}</p>
                 </div>
                 <span className="text-xs text-sky-100 text-right max-w-[190px] leading-relaxed font-medium">
-                  Final quotation confirmed upon drop-off at Grafton Street.
+                  Payment is required upfront upon drop-off at Grafton Street.
                 </span>
               </div>
             </div>
@@ -462,93 +464,67 @@ export default function App() {
           </div>
         )}
 
-        {/* ABOUT & LOCATION TAB */}
+        {/* ABOUT & POLICY TAB */}
         {activeTab === 'about' && (
           <div className="max-w-4xl mx-auto space-y-8 py-2">
             <div>
-              <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Dublin Studio</span>
-              <h2 className="text-3xl font-bold text-slate-900 tracking-tight mt-1">About ALiCo & Location</h2>
-              <p className="text-slate-600 text-sm">Visit our workshop in the Grafton Street area or get directions instantly.</p>
+              <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Dublin Studio & Policies</span>
+              <h2 className="text-3xl font-bold text-slate-900 tracking-tight mt-1">About ALiCo & Store Policy</h2>
+              <p className="text-slate-600 text-sm">Learn more about our craftsmanship and our mandatory upfront payment policy.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* About Studio */}
               <div className="bg-white border border-sky-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 shrink-0">
-                      <MapPin className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 text-base">Studio Location</h3>
-                      <p className="text-slate-600 text-sm mt-1 leading-relaxed">
-                        Grafton Street Area<br />
-                        Dublin, Ireland
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
+                      <Scissors className="w-5 h-5 text-blue-600" /> Master Tailoring & Laundry
+                    </h3>
+                    <p className="text-slate-600 text-sm mt-2 leading-relaxed">
+                      ALiCo is Dublin's premier destination for expert garment care, precision measuring, and professional alterations. Located conveniently near Grafton Street, our workshop handles everything from delicate dry cleaning to complex suit refitting.
+                    </p>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 shrink-0">
-                      <Clock className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 text-base">Working Hours</h3>
-                      <p className="text-slate-600 text-sm mt-1 leading-relaxed">
-                        Monday – Friday: 9:00 AM – 6:30 PM<br />
-                        Saturday: 10:00 AM – 5:00 PM<br />
-                        Sunday: Closed
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-sky-100 border border-sky-200 flex items-center justify-center text-blue-600 shrink-0">
-                      <Phone className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-slate-900 text-base">Contact Phone</h3>
-                      <p className="text-slate-600 text-sm mt-1">+353 (0)1 XXX XXXX</p>
-                    </div>
+                  <div className="space-y-3 text-sm text-slate-700">
+                    <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-blue-600 shrink-0" /> Grafton Street Area, Dublin, Ireland</p>
+                    <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-blue-600 shrink-0" /> Mon – Fri: 9:00 AM – 6:30 PM, Sat: 10:00 AM – 5:00 PM</p>
                   </div>
                 </div>
 
                 <button
                   onClick={openNativeMaps}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-2xl transition shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 mt-6 text-sm"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-6 rounded-2xl transition shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 mt-6 text-sm"
                 >
-                  <Navigation className="w-4 h-4" /> Get Directions (Apple / Google Maps)
+                  <Navigation className="w-4 h-4" /> Get Directions
                 </button>
               </div>
 
-              <div className="bg-white border border-sky-200 rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-sky-50 to-blue-50/50 z-10 pointer-events-none"></div>
-
-                <div className="relative z-20 flex justify-between items-start">
-                  <span className="bg-white border border-sky-200 text-slate-700 text-xs px-3.5 py-2 rounded-xl font-bold shadow-sm">
-                    📍 Grafton Street, Dublin
-                  </span>
-                  <span className="bg-blue-600 text-white text-xs px-3.5 py-2 rounded-xl font-extrabold flex items-center gap-2 shadow-md">
-                    <span className="w-2 h-2 rounded-full bg-white animate-ping"></span> Open Now
-                  </span>
+              {/* Upfront Payment Policy Card */}
+              <div className="bg-gradient-to-br from-blue-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                  <CreditCard className="w-32 h-32" />
                 </div>
 
-                <div className="relative z-25 my-auto py-10 text-center space-y-4">
-                  <div className="w-20 h-20 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto shadow-xl">
-                    <MapPin className="w-10 h-10" />
+                <div className="space-y-4 relative z-10">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-600/50 border border-blue-400/30 flex items-center justify-center text-white">
+                    <CreditCard className="w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-slate-900 text-xl">ALiCo Laundry & Tailoring</h4>
-                    <p className="text-xs text-blue-600 mt-1 font-bold uppercase tracking-wider">Heart of Dublin City Centre</p>
+                    <h3 className="font-extrabold text-xl text-white">Mandatory Upfront Policy</h3>
+                    <p className="text-xs text-blue-300 font-bold uppercase tracking-wider mt-1">Payment Upon Drop-Off</p>
+                  </div>
+                  <p className="text-slate-200 text-sm leading-relaxed">
+                    Please note that **all items and garments brought into ALiCo must be paid for upfront** at the time of drop-off. 
+                  </p>
+                  <div className="bg-white/10 border border-white/20 rounded-2xl p-4 text-xs text-sky-100 space-y-2">
+                    <p className="font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-cyan-400" /> No items will be taken or processed for laundry or alterations without prior upfront payment.</p>
+                    <p>We accept all major credit/debit cards and contactless payments in-store.</p>
                   </div>
                 </div>
 
-                <div className="relative z-20">
-                  <button
-                    onClick={openNativeMaps}
-                    className="w-full bg-sky-50 hover:bg-sky-100 border border-sky-200 text-blue-900 font-bold py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 text-sm shadow-sm"
-                  >
-                    Open in Native Maps App <ExternalLink className="w-4 h-4 text-blue-600" />
-                  </button>
+                <div className="relative z-10 pt-2">
+                  <span className="text-xs text-slate-400 block text-center font-medium">Thank you for your cooperation and trust in ALiCo.</span>
                 </div>
               </div>
             </div>
@@ -561,7 +537,7 @@ export default function App() {
             <div>
               <span className="text-blue-600 font-bold text-xs uppercase tracking-wider">Transparent Rates</span>
               <h2 className="text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
-              <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide.</p>
+              <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide. (Payment required upfront).</p>
             </div>
 
             <div className="divide-y divide-sky-100 text-sm font-medium">
@@ -604,8 +580,9 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-sky-100 bg-white py-6 text-center text-xs text-slate-500 font-medium">
+      <footer className="border-t border-sky-100 bg-white py-6 text-center text-xs text-slate-500 font-medium space-y-1">
         <p>© {new Date().getFullYear()} ALiCo Master Laundry & Tailoring. Grafton Street Area, Dublin, Ireland.</p>
+        <p className="text-blue-600 font-bold">Policy Reminder: All items must be paid upfront upon drop-off.</p>
       </footer>
     </div>
   );
