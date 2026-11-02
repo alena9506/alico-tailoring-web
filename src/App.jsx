@@ -21,7 +21,7 @@ import {
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import logoImage from './logo.png';
-import tailorImage from './tailor.jpg'; // <-- Imported your local tailoring image directly!
+import tailorImage from './tailor.png'; // <-- Uses tailor.png as requested!
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -322,7 +322,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visuals: 1. Wash & Dry Hub | 2. Local Tailor Chalk & Measuring Image */}
+              {/* Visuals: 1. Wash & Dry Hub | 2. Local Tailor Chalk & Measuring Image (tailor.png) */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
