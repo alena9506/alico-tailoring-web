@@ -21,6 +21,7 @@ import {
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import logoImage from './logo.png';
+import tailorImage from './tailor.jpg'; // <-- Imported your local tailoring image directly!
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -253,7 +254,7 @@ export default function App() {
         {activeTab === 'overview' && (
           <div className="space-y-12 py-2">
             
-            {/* PROMINENT MANDATORY POLICY BANNER FOR MAXIMUM VISIBILITY */}
+            {/* PROMINENT MANDATORY POLICY BANNER */}
             <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border-2 border-amber-300">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-white/25 border border-white/30 flex items-center justify-center text-white shrink-0 shadow-inner">
@@ -275,7 +276,7 @@ export default function App() {
               </button>
             </div>
 
-            {/* HERO BANNER WITH COMMERCIAL LAUNDRY MACHINES & TAILORING MEASURING */}
+            {/* HERO BANNER WITH COMMERCIAL LAUNDRY & LOCAL TAILOR IMAGE */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-sky-200 rounded-3xl p-6 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
                 <div className="flex flex-wrap items-center gap-3">
@@ -321,7 +322,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visuals: 1. Wash & Dry Hub | 2. Tailor Chalk & Measuring Photo */}
+              {/* Visuals: 1. Wash & Dry Hub | 2. Local Tailor Chalk & Measuring Image */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
@@ -336,8 +337,8 @@ export default function App() {
 
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80" 
-                    alt="Tailor marking and measuring denim with chalk" 
+                    src={tailorImage} 
+                    alt="Professional tailor measuring and marking denim with chalk" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
