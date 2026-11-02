@@ -296,7 +296,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visuals: 1. Wash & Dry Hub | 2. Tailoring Measuring & Sizing */}
+              {/* Visuals: 1. Wash & Dry Hub | 2. Professional Tailor Measuring & Chalking */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
