@@ -296,7 +296,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visuals: 1. Wash & Dry Hub | 2. Professional Tailor Measuring & Chalking */}
+              {/* Visuals: 1. Wash & Dry Hub | 2. Professional Tailor Chalking & Measuring */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
@@ -311,8 +311,8 @@ export default function App() {
 
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-sky-100 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=600&q=80" 
-                    alt="Tailor measuring and chalking garment alterations" 
+                    src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80" 
+                    alt="Tailor measuring and marking denim with chalk" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
