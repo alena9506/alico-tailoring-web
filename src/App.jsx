@@ -24,7 +24,14 @@ import logoImage from './logo.png';
 import tailorImage from './tailor.png';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('overview');
+  // Remember active tab across refreshes using sessionStorage
+  const [activeTab, setActiveTab] = useState(() => {
+    return sessionStorage.getItem('alico_active_tab') || 'overview';
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem('alico_active_tab', activeTab);
+  }, [activeTab]);
 
   // Comprehensive fallback structure ensuring categories always appear even before sync
   const [alterationOptions, setAlterationOptions] = useState({
