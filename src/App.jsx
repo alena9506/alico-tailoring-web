@@ -75,7 +75,7 @@ export default function App() {
   const [selectedGarment, setSelectedGarment] = useState(categories[0]);
   const [selectedAlterationObj, setSelectedAlterationObj] = useState(alterationOptions[categories[0]][0]);
   
-  // Multi-item estimate cart state saved in sessionStorage so it survives a refresh
+  // Multi-item estimate cart state saved in sessionStorage
   const [estimateCart, setEstimateCart] = useState(() => {
     const saved = sessionStorage.getItem('alico_estimate_cart');
     return saved ? JSON.parse(saved) : [];
@@ -121,7 +121,7 @@ export default function App() {
             });
           }
         }, (err) => {
-          // Ignore permission errors on non-existent collections
+          // Ignore permission errors
         });
 
         unsubscribes.push(unsub);
@@ -158,8 +158,7 @@ export default function App() {
     const newItem = {
       id: Date.now(),
       category: selectedGarment,
-      name: selectedAlterationObj.name,
-      price: selectedAlterationObj.price
+      name: selectedAlterationObj.name
     };
 
     setEstimateCart([...estimateCart, newItem]);
@@ -169,7 +168,14 @@ export default function App() {
     setEstimateCart(estimateCart.filter(item => item.id !== id));
   };
 
-  const totalEstimatePrice = estimateCart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+  // Dynamically resolve the live price of each item in the cart based on current alterationOptions
+  const getCartItemPrice = (item) => {
+    const catItems = alterationOptions[item.category] || [];
+    const found = catItems.find(i => i.name.toLowerCase() === item.name.toLowerCase());
+    return found ? found.price : (item.price || 0.00);
+  };
+
+  const totalEstimatePrice = estimateCart.reduce((sum, item) => sum + getCartItemPrice(item), 0).toFixed(2);
 
   // Order Tracker state
   const [ticketQuery, setTicketQuery] = useState('');
@@ -472,24 +478,27 @@ export default function App() {
                 </div>
               ) : (
                 <div className="divide-y divide-cyan-100 border border-cyan-100 rounded-3xl bg-white overflow-hidden shadow-sm">
-                  {estimateCart.map((item) => (
-                    <div key={item.id} className="p-4 sm:p-5 flex justify-between items-center hover:bg-cyan-50/40 transition">
-                      <div>
-                        <span className="text-xs font-extrabold text-cyan-700 uppercase tracking-wider block">{item.category}</span>
-                        <h4 className="font-bold text-slate-900 text-base">{item.name}</h4>
+                  {estimateCart.map((item) => {
+                    const livePrice = getCartItemPrice(item);
+                    return (
+                      <div key={item.id} className="p-4 sm:p-5 flex justify-between items-center hover:bg-cyan-50/40 transition">
+                        <div>
+                          <span className="text-xs font-extrabold text-cyan-700 uppercase tracking-wider block">{item.category}</span>
+                          <h4 className="font-bold text-slate-900 text-base">{item.name}</h4>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <span className="font-extrabold text-cyan-600 text-lg">€{livePrice.toFixed(2)}</span>
+                          <button
+                            onClick={() => handleRemoveItem(item.id)}
+                            className="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-xl transition shadow-sm"
+                            title="Remove item"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <span className="font-extrabold text-cyan-600 text-lg">€{item.price.toFixed(2)}</span>
-                        <button
-                          onClick={() => handleRemoveItem(item.id)}
-                          className="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-xl transition shadow-sm"
-                          title="Remove item"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
