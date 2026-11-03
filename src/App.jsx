@@ -26,58 +26,90 @@ import tailorImage from './tailor.png';
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Fully dynamic state populated straight from Firestore
+  // Comprehensive fallback structure ensuring categories always appear even before sync
   const [alterationOptions, setAlterationOptions] = useState({
     'Trousers / Jeans': [
       { name: 'Standard Hemming', price: 15.00 },
+      { name: 'Original Hemming (Keep Fade)', price: 15.00 },
+      { name: 'Zip Runner / Slider Replacement', price: 8.00 },
+      { name: 'Taper Legs', price: 18.00 },
       { name: 'Waist Take-in / Let-out', price: 16.00 }
+    ],
+    'Suit Jacket / Blazer': [
+      { name: 'Take in Side Seams', price: 28.00 },
+      { name: 'Shorten Length from Bottom', price: 30.00 },
+      { name: 'Sleeve Shortening (Plain)', price: 22.00 },
+      { name: 'Shoulder Adjustment', price: 45.00 },
+      { name: 'Replace Lining', price: 65.00 }
+    ],
+    'Skirt': [
+      { name: 'Hem Shortening', price: 18.00 },
+      { name: 'Waist Adjustment', price: 16.00 },
+      { name: 'Full Zip Replacement', price: 18.00 }
+    ],
+    'Dress': [
+      { name: 'Hem Shortening (Simple)', price: 25.00 },
+      { name: 'Take in Side Seams / Refitting', price: 28.00 },
+      { name: 'Strap Adjustment', price: 15.00 }
+    ],
+    'Laundry & Dry Cleaning': [
+      { name: 'Wash, Dry & Fold (Per Kg)', price: 6.50 },
+      { name: 'Dry Cleaning (Standard Suit / Coat)', price: 14.00 },
+      { name: 'Duvet / Heavy Bedding Care', price: 22.00 }
     ]
   });
 
   const categories = Object.keys(alterationOptions);
-  const [selectedGarment, setSelectedGarment] = useState(categories[0] || 'Trousers / Jeans');
+  const [selectedGarment, setSelectedGarment] = useState(categories[0]);
   const [selectedAlteration, setSelectedAlteration] = useState('');
   const [estimatePrice, setEstimatePrice] = useState('0.00');
 
-  // Automatically fetch ALL categories and prices live from Firestore
+  // Automatically fetch ALL categories and prices live from Firestore (checking both 'priceBook' and 'prices')
   useEffect(() => {
     const fetchLivePrices = async () => {
       try {
-        let querySnapshot;
-        try {
-          querySnapshot = await getDocs(collection(db, 'prices'));
-        } catch (e) {
-          querySnapshot = await getDocs(collection(db, 'priceBook'));
+        let querySnapshot = null;
+        const targetCollections = ['priceBook', 'prices', 'services', 'inventory'];
+
+        for (const colName of targetCollections) {
+          try {
+            const snap = await getDocs(collection(db, colName));
+            if (!snap.empty) {
+              querySnapshot = snap;
+              break;
+            }
+          } catch (e) {
+            // Try next collection
+          }
         }
 
         if (querySnapshot && !querySnapshot.empty) {
-          const fetchedOptions = {};
+          const liveOptions = { ...alterationOptions };
 
           querySnapshot.forEach((docSnap) => {
             const data = docSnap.data();
-            // Pull category name dynamically (supports category, serviceCategory, type, etc.)
-            let cat = data.category || data.serviceCategory || data.type || 'General Services';
+            
+            // Support all possible category property names from your ticketing app
+            let cat = data.category || data.serviceCategory || data.type || data.group || 'General Services';
             cat = cat.trim();
 
-            if (!fetchedOptions[cat]) {
-              fetchedOptions[cat] = [];
+            if (!liveOptions[cat]) {
+              liveOptions[cat] = [];
             }
 
-            fetchedOptions[cat].push({
-              name: data.name || data.serviceName || data.title || 'Service Item',
-              price: Number(data.price || data.cost || data.amount || 0)
-            });
+            const itemName = data.name || data.serviceName || data.title || data.item || 'Service Item';
+            const itemPrice = Number(data.price || data.cost || data.amount || 0);
+
+            // Update or add item dynamically
+            const existingIndex = liveOptions[cat].findIndex(i => i.name.toLowerCase() === itemName.toLowerCase());
+            if (existingIndex >= 0) {
+              liveOptions[cat][existingIndex].price = itemPrice;
+            } else {
+              liveOptions[cat].push({ name: itemName, price: itemPrice });
+            }
           });
 
-          if (Object.keys(fetchedOptions).length > 0) {
-            setAlterationOptions(fetchedOptions);
-            const firstCat = Object.keys(fetchedOptions)[0];
-            setSelectedGarment(firstCat);
-            if (fetchedOptions[firstCat].length > 0) {
-              setSelectedAlteration(`${fetchedOptions[firstCat][0].name} (€${fetchedOptions[firstCat][0].price.toFixed(2)})`);
-              setEstimatePrice(fetchedOptions[firstCat][0].price.toFixed(2));
-            }
-          }
+          setAlterationOptions(liveOptions);
         }
       } catch (err) {
         console.error("Error fetching live prices from Firestore:", err);
