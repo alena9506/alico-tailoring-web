@@ -244,49 +244,51 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-100/70 via-cyan-50/40 to-teal-50/50 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-[#1b88a6] via-[#105d76] to-[#093544] text-slate-100 flex flex-col font-sans selection:bg-cyan-400 selection:text-slate-950 relative overflow-hidden">
       
-      {/* BACKGROUND BUBBLE & WAVE DECORATIVE ACCENTS (Matches Flyers) */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-cyan-200/40 to-transparent pointer-events-none -z-10 rounded-b-[50%] blur-3xl"></div>
-      <div className="absolute -top-20 -right-20 w-80 h-80 bg-teal-200/30 rounded-full blur-2xl pointer-events-none -z-10"></div>
-      <div className="absolute top-1/3 -left-20 w-72 h-72 bg-cyan-300/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+      {/* DECORATIVE WATER BUBBLE & WAVE GRADIENTS */}
+      <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-[#25a9cc]/40 via-transparent to-transparent pointer-events-none -z-10 rounded-b-[60%] blur-3xl"></div>
+      <div className="absolute top-1/4 -right-32 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+      <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-      {/* FLYER-STYLE ORANGE PAYMENT UPFRONT BADGE (Bottom Right Floating / Fixed) */}
-      <div className="fixed bottom-24 right-6 z-45 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-full w-28 h-28 sm:w-32 sm:h-32 flex flex-col items-center justify-center p-3 text-center shadow-2xl border-4 border-white animate-bounce pointer-events-none">
+      {/* FLYER-STYLE ORANGE PAYMENT UPFRONT BADGE */}
+      <div className="fixed bottom-24 right-6 z-45 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-full w-28 h-28 sm:w-32 sm:h-32 flex flex-col items-center justify-center p-3 text-center shadow-2xl border-4 border-white/90 animate-bounce pointer-events-none">
         <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-tight leading-tight">Payment</span>
         <span className="text-xs sm:text-sm font-black uppercase tracking-wider">up front</span>
         <span className="text-[10px] sm:text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mt-0.5">only</span>
       </div>
 
       {/* TOP ANNOUNCEMENT BAR */}
-      <div className="bg-gradient-to-r from-teal-700 via-cyan-700 to-teal-800 text-white text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
+      <div className="bg-[#093544]/90 text-cyan-200 text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 border-b border-cyan-500/30 shadow-sm">
         <span>📍 Artane Shopping Centre, Dublin</span>
         <span className="hidden sm:inline">•</span>
         <span>Strict Policy: Payment Up Front Only Upon Drop-Off</span>
       </div>
 
       {/* HEADER & NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/90 border-b border-cyan-200 backdrop-blur-md px-4 sm:px-8 py-4 shadow-sm">
+      <header className="sticky top-0 z-50 bg-[#0d475c]/95 border-b border-cyan-500/30 backdrop-blur-md px-4 sm:px-8 py-4 shadow-lg">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
           
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
-            <img 
-              src={logoImage} 
-              alt="ALiCo Logo" 
-              className="h-14 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform" 
-            />
+            <div className="bg-white/95 px-3 py-1.5 rounded-2xl shadow-md">
+              <img 
+                src={logoImage} 
+                alt="ALiCo Logo" 
+                className="h-12 sm:h-14 w-auto object-contain group-hover:scale-105 transition-transform" 
+              />
+            </div>
             <div>
-              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">ALiCo</h1>
-              <p className="text-[11px] text-cyan-600 font-bold uppercase tracking-wider">Laundry & Tailoring Business</p>
+              <h1 className="text-lg sm:text-xl font-extrabold text-white tracking-tight">ALiCo</h1>
+              <p className="text-[11px] text-cyan-300 font-bold uppercase tracking-wider">Laundry & Tailoring Business</p>
             </div>
           </div>
 
-          <nav className="bg-cyan-100/70 p-1.5 rounded-2xl border border-cyan-200 shadow-inner w-full lg:w-auto">
+          <nav className="bg-[#093544]/80 p-1.5 rounded-2xl border border-cyan-500/30 shadow-inner w-full lg:w-auto">
             <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1">
               <button
                 onClick={() => setActiveTab('overview')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
-                  activeTab === 'overview' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-200/60'
+                  activeTab === 'overview' ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/40' : 'text-slate-200 hover:text-white hover:bg-cyan-900/50'
                 }`}
               >
                 Overview
@@ -294,7 +296,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('estimator')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
-                  activeTab === 'estimator' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-200/60'
+                  activeTab === 'estimator' ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/40' : 'text-slate-200 hover:text-white hover:bg-cyan-900/50'
                 }`}
               >
                 Price Estimator
@@ -302,7 +304,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('tracker')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
-                  activeTab === 'tracker' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-200/60'
+                  activeTab === 'tracker' ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/40' : 'text-slate-200 hover:text-white hover:bg-cyan-900/50'
                 }`}
               >
                 Live Tracker
@@ -310,7 +312,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('about')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
-                  activeTab === 'about' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-200/60'
+                  activeTab === 'about' ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/40' : 'text-slate-200 hover:text-white hover:bg-cyan-900/50'
                 }`}
               >
                 <Info className="w-3.5 h-3.5 shrink-0" /> About & Policy
@@ -318,7 +320,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('menu')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
-                  activeTab === 'menu' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-200/60'
+                  activeTab === 'menu' ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/40' : 'text-slate-200 hover:text-white hover:bg-cyan-900/50'
                 }`}
               >
                 Price Menu
@@ -334,11 +336,11 @@ export default function App() {
         {activeTab === 'overview' && (
           <div className="space-y-12 py-2">
             {/* POLICY BANNER MATCHING FLYER VIBE */}
-            <div className="bg-gradient-to-r from-teal-800 via-cyan-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-cyan-400/30 relative overflow-hidden">
+            <div className="bg-gradient-to-r from-teal-900 via-cyan-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-cyan-400/40 relative overflow-hidden">
               <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-xl pointer-events-none"></div>
               <div className="flex items-start gap-4 relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0 shadow-inner">
-                  <AlertTriangle className="w-7 h-7 animate-pulse" />
+                <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shrink-0 shadow-inner">
+                  <AlertTriangle className="w-7 h-7 animate-pulse text-cyan-400" />
                 </div>
                 <div className="space-y-1">
                   <span className="bg-cyan-500/30 text-cyan-200 font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-widest">Mandatory Store Policy</span>
@@ -356,15 +358,15 @@ export default function App() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white/90 backdrop-blur-md border border-cyan-200 rounded-3xl p-6 sm:p-10 shadow-xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-[#0e495f]/90 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl">
               <div className="space-y-6 text-left">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="inline-flex items-center gap-2 bg-cyan-100 text-cyan-900 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider border border-cyan-200">
-                    <Waves className="w-4 h-4 text-cyan-600" /> Artane Shopping Centre, Dublin
+                  <span className="inline-flex items-center gap-2 bg-[#093544] text-cyan-200 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider border border-cyan-500/40 shadow-sm">
+                    <Waves className="w-4 h-4 text-cyan-400" /> Artane Shopping Centre, Dublin
                   </span>
                   
-                  <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs px-3 py-1.5 rounded-full font-bold shadow-sm">
-                    <span className="text-emerald-700 font-extrabold">Trustpilot</span>
+                  <div className="inline-flex items-center gap-1.5 bg-slate-900/80 border border-emerald-500/40 text-emerald-300 text-xs px-3 py-1.5 rounded-full font-bold shadow-sm">
+                    <span className="text-emerald-400 font-extrabold">Trustpilot</span>
                     <div className="flex text-amber-400 gap-0.5">
                       <Star className="w-3.5 h-3.5 fill-amber-400" />
                       <Star className="w-3.5 h-3.5 fill-amber-400" />
@@ -372,28 +374,28 @@ export default function App() {
                       <Star className="w-3.5 h-3.5 fill-amber-400" />
                       <Star className="w-3.5 h-3.5 fill-amber-400" />
                     </div>
-                    <span className="text-slate-600 font-semibold">5.0</span>
+                    <span className="text-slate-300 font-semibold">5.0</span>
                   </div>
                 </div>
                 
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                  Laundry & <span className="text-cyan-600">Tailoring Business</span>
+                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                  Laundry & <span className="text-cyan-400">Tailoring Business</span>
                 </h1>
                 
-                <p className="text-slate-600 text-base leading-relaxed">
+                <p className="text-cyan-100 text-base leading-relaxed">
                   Welcome to ALiCo at Artane Shopping Centre, Dublin. We provide professional laundry care and expert tailoring services with sparkling results and bubble-clean quality.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <button
                     onClick={() => setActiveTab('estimator')}
-                    className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-600/25 text-sm"
+                    className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-500/30 text-sm"
                   >
                     Calculate Estimate
                   </button>
                   <button
                     onClick={() => setActiveTab('tracker')}
-                    className="bg-cyan-100 hover:bg-cyan-200 border-2 border-cyan-300 text-cyan-950 font-extrabold px-7 py-3.5 rounded-2xl transition shadow-sm text-sm"
+                    className="bg-[#093544] hover:bg-[#06242f] border-2 border-cyan-500/40 text-cyan-200 font-extrabold px-7 py-3.5 rounded-2xl transition shadow-sm text-sm"
                   >
                     Track My Order
                   </button>
@@ -401,24 +403,24 @@ export default function App() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-cyan-200 group">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-500/40 group">
                   <img 
                     src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=600&q=80" 
                     alt="Commercial laundry washing and drying machines" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-4">
                     <span className="text-white text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Laundry Services</span>
                   </div>
                 </div>
 
-                <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-cyan-200 group">
+                <div className="relative rounded-2xl overflow-hidden shadow-xl border-2 border-cyan-500/40 group">
                   <img 
                     src={tailorImage} 
                     alt="Professional tailor measuring and marking denim with chalk" 
                     className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent flex items-end p-4">
                     <span className="text-white text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Tailoring Services</span>
                   </div>
                 </div>
@@ -429,39 +431,39 @@ export default function App() {
 
         {/* MULTI-ITEM PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
-          <div className="max-w-3xl mx-auto bg-white/95 backdrop-blur-md border border-cyan-200 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
+          <div className="max-w-3xl mx-auto bg-[#0e495f]/95 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8 text-white">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
-              <h2 className="text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
-              <p className="text-slate-600 text-sm">Select multiple garments or services, add them to your estimate, and review your total.</p>
+              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
+              <h2 className="text-3xl font-bold text-white mt-1">Interactive Price Estimator</h2>
+              <p className="text-cyan-100 text-sm">Select multiple garments or services, add them to your estimate, and review your total.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-cyan-100/60 p-6 rounded-3xl border border-cyan-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#093544]/80 p-6 rounded-3xl border border-cyan-500/30">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">1. Select Category</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-cyan-200 mb-2">1. Select Category</label>
                 <select
                   value={selectedGarment}
                   onChange={(e) => handleGarmentChange(e.target.value)}
-                  className="w-full bg-white border border-cyan-300 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
+                  className="w-full bg-[#0d475c] border border-cyan-500/40 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-400 text-white shadow-inner font-medium"
                 >
                   {Object.keys(alterationOptions).map((catName) => (
-                    <option key={catName} value={catName}>{catName}</option>
+                    <option key={catName} value={catName} className="bg-[#093544] text-white">{catName}</option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-700 mb-2">2. Select Service / Item</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-cyan-200 mb-2">2. Select Service / Item</label>
                 <select
                   value={selectedAlterationObj ? selectedAlterationObj.name : ''}
                   onChange={(e) => {
                     const found = (alterationOptions[selectedGarment] || []).find(i => i.name === e.target.value);
                     if (found) setSelectedAlterationObj(found);
                   }}
-                  className="w-full bg-white border border-cyan-300 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
+                  className="w-full bg-[#0d475c] border border-cyan-500/40 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-400 text-white shadow-inner font-medium"
                 >
                   {(alterationOptions[selectedGarment] || []).map((alt, index) => (
-                    <option key={index} value={alt.name}>
+                    <option key={index} value={alt.name} className="bg-[#093544] text-white">
                       {alt.name} — €{alt.price.toFixed(2)}
                     </option>
                   ))}
@@ -472,7 +474,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleAddItemToEstimate}
-                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-cyan-600/25 flex items-center gap-2 text-sm"
+                  className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-cyan-500/30 flex items-center gap-2 text-sm"
                 >
                   <Plus className="w-4 h-4" /> Add Item to Estimate
                 </button>
@@ -481,29 +483,29 @@ export default function App() {
 
             {/* ESTIMATE CART / SELECTED ITEMS */}
             <div className="space-y-4">
-              <h3 className="font-extrabold text-slate-900 text-lg flex items-center gap-2">
-                <ShoppingCart className="w-5 h-5 text-cyan-600" /> Selected Items ({estimateCart.length})
+              <h3 className="font-extrabold text-white text-lg flex items-center gap-2">
+                <ShoppingCart className="w-5 h-5 text-cyan-400" /> Selected Items ({estimateCart.length})
               </h3>
 
               {estimateCart.length === 0 ? (
-                <div className="border-2 border-dashed border-cyan-300 rounded-3xl p-8 text-center text-slate-500 text-sm font-medium bg-cyan-50/40">
+                <div className="border-2 border-dashed border-cyan-500/30 rounded-3xl p-8 text-center text-cyan-200/70 text-sm font-medium bg-[#093544]/50">
                   No items added yet. Select a category and service above and click "Add Item to Estimate".
                 </div>
               ) : (
-                <div className="divide-y divide-cyan-100 border border-cyan-200 rounded-3xl bg-white overflow-hidden shadow-sm">
+                <div className="divide-y divide-cyan-500/20 border border-cyan-500/30 rounded-3xl bg-[#093544]/70 overflow-hidden shadow-sm">
                   {estimateCart.map((item) => {
                     const livePrice = getCartItemPrice(item);
                     return (
-                      <div key={item.id} className="p-4 sm:p-5 flex justify-between items-center hover:bg-cyan-50/50 transition">
+                      <div key={item.id} className="p-4 sm:p-5 flex justify-between items-center hover:bg-cyan-900/30 transition">
                         <div>
-                          <span className="text-xs font-extrabold text-cyan-700 uppercase tracking-wider block">{item.category}</span>
-                          <h4 className="font-bold text-slate-900 text-base">{item.name}</h4>
+                          <span className="text-xs font-extrabold text-cyan-300 uppercase tracking-wider block">{item.category}</span>
+                          <h4 className="font-bold text-white text-base">{item.name}</h4>
                         </div>
                         <div className="flex items-center gap-4">
-                          <span className="font-extrabold text-cyan-600 text-lg">€{livePrice.toFixed(2)}</span>
+                          <span className="font-extrabold text-cyan-400 text-lg">€{livePrice.toFixed(2)}</span>
                           <button
                             onClick={() => handleRemoveItem(item.id)}
-                            className="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-xl transition shadow-sm"
+                            className="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 p-2 rounded-xl transition shadow-sm border border-rose-500/30"
                             title="Remove item"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -517,9 +519,9 @@ export default function App() {
             </div>
 
             {/* TOTAL ESTIMATE BANNER */}
-            <div className="bg-gradient-to-r from-teal-700 to-cyan-600 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl shadow-cyan-500/20">
+            <div className="bg-gradient-to-r from-teal-800 to-cyan-700 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl shadow-cyan-500/20 border border-cyan-400/30">
               <div>
-                <p className="text-xs uppercase font-bold tracking-widest text-cyan-100">Total Estimated Price</p>
+                <p className="text-xs uppercase font-bold tracking-widest text-cyan-200">Total Estimated Price</p>
                 <p className="text-4xl sm:text-5xl font-extrabold mt-1">€{totalEstimatePrice}</p>
               </div>
               <span className="text-xs text-cyan-100 text-center sm:text-right max-w-[220px] leading-relaxed font-medium">
@@ -530,11 +532,11 @@ export default function App() {
         )}
 
         {activeTab === 'tracker' && (
-          <div className="max-w-xl mx-auto bg-white/95 backdrop-blur-md border border-cyan-200 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-xl mx-auto bg-[#0e495f]/95 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6 text-white">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live System</span>
-              <h2 className="text-3xl font-bold text-slate-900 mt-1">Track Your Order</h2>
-              <p className="text-slate-600 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
+              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Live System</span>
+              <h2 className="text-3xl font-bold text-white mt-1">Track Your Order</h2>
+              <p className="text-cyan-100 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
             </div>
 
             <form onSubmit={handleTrackOrder} className="flex flex-col sm:flex-row gap-3">
@@ -543,35 +545,35 @@ export default function App() {
                 placeholder="e.g. 7244"
                 value={ticketQuery}
                 onChange={(e) => setTicketQuery(e.target.value)}
-                className="flex-1 bg-cyan-50/50 border border-cyan-300 rounded-2xl px-4 py-3.5 text-sm text-slate-900 focus:outline-none focus:border-cyan-600 uppercase tracking-wider font-bold shadow-inner"
+                className="flex-1 bg-[#0d475c] border border-cyan-500/40 rounded-2xl px-4 py-3.5 text-sm text-white focus:outline-none focus:border-cyan-400 uppercase tracking-wider font-bold shadow-inner placeholder:text-cyan-300/50"
               />
               <button
                 type="submit"
                 disabled={loadingOrder}
-                className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-600/25 disabled:opacity-50 text-sm"
+                className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-500/30 disabled:opacity-50 text-sm"
               >
                 {loadingOrder ? 'Searching...' : 'Search Ticket'}
               </button>
             </form>
 
             {errorMessage && (
-              <div className="bg-rose-50 border-2 border-rose-200 text-rose-800 rounded-2xl p-4 flex items-center gap-3 text-sm font-medium shadow-sm">
-                <AlertCircle className="w-5 h-5 text-rose-500 shrink-0" />
+              <div className="bg-rose-950/80 border-2 border-rose-500/40 text-rose-200 rounded-2xl p-4 flex items-center gap-3 text-sm font-medium shadow-sm">
+                <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
                 <span>{errorMessage}</span>
               </div>
             )}
 
             {searchedOrder && (
-              <div className="bg-cyan-50/70 border-2 border-cyan-300 rounded-2xl p-6 space-y-4 shadow-sm">
-                <div className="flex justify-between items-center pb-3 border-b border-cyan-200">
-                  <span className="font-mono text-cyan-950 font-extrabold text-base">Ticket: #{searchedOrder.id}</span>
-                  <span className="bg-cyan-600 text-white text-xs px-3.5 py-1.5 rounded-full font-bold shadow-sm">{searchedOrder.status || 'Pending'}</span>
+              <div className="bg-[#093544] border-2 border-cyan-500/50 rounded-2xl p-6 space-y-4 shadow-sm">
+                <div className="flex justify-between items-center pb-3 border-b border-cyan-500/30">
+                  <span className="font-mono text-cyan-200 font-extrabold text-base">Ticket: #{searchedOrder.id}</span>
+                  <span className="bg-cyan-500 text-slate-950 text-xs px-3.5 py-1.5 rounded-full font-extrabold shadow-sm">{searchedOrder.status || 'Pending'}</span>
                 </div>
-                <div className="space-y-2.5 text-sm font-medium text-slate-700">
-                  <p><strong className="text-slate-500">Service:</strong> <span className="text-slate-900">{searchedOrder.service || searchedOrder.item || 'Laundry & Tailoring'}</span></p>
-                  <p><strong className="text-slate-500">Phone:</strong> <span className="text-slate-900">{searchedOrder.phone || searchedOrder.phoneNumber || 'N/A'}</span></p>
-                  <p><strong className="text-slate-500">Target Ready Date:</strong> <span className="text-cyan-700 font-bold">{searchedOrder.date}</span></p>
-                  <p><strong className="text-slate-500">Total:</strong> <span className="text-slate-900 font-bold">€{searchedOrder.total || searchedOrder.price || '0.00'}</span></p>
+                <div className="space-y-2.5 text-sm font-medium text-cyan-100">
+                  <p><strong className="text-cyan-300">Service:</strong> <span className="text-white">{searchedOrder.service || searchedOrder.item || 'Laundry & Tailoring'}</span></p>
+                  <p><strong className="text-cyan-300">Phone:</strong> <span className="text-white">{searchedOrder.phone || searchedOrder.phoneNumber || 'N/A'}</span></p>
+                  <p><strong className="text-cyan-300">Target Ready Date:</strong> <span className="text-cyan-400 font-bold">{searchedOrder.date}</span></p>
+                  <p><strong className="text-cyan-300">Total:</strong> <span className="text-white font-bold">€{searchedOrder.total || searchedOrder.price || '0.00'}</span></p>
                 </div>
               </div>
             )}
@@ -579,53 +581,53 @@ export default function App() {
         )}
 
         {activeTab === 'about' && (
-          <div className="max-w-4xl mx-auto space-y-8 py-2">
+          <div className="max-w-4xl mx-auto space-y-8 py-2 text-white">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Dublin Business & Policies</span>
-              <h2 className="text-3xl font-bold text-slate-900 tracking-tight mt-1">About ALiCo & Store Policy</h2>
-              <p className="text-slate-600 text-sm">Learn more about our bubble-clean laundry care, expert tailoring, and our mandatory up front payment policy.</p>
+              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Dublin Business & Policies</span>
+              <h2 className="text-3xl font-bold text-white tracking-tight mt-1">About ALiCo & Store Policy</h2>
+              <p className="text-cyan-100 text-sm">Learn more about our bubble-clean laundry care, expert tailoring, and our mandatory up front payment policy.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white/95 backdrop-blur-md border border-cyan-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
+              <div className="bg-[#0e495f]/95 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                      <Scissors className="w-5 h-5 text-cyan-600" /> Laundry & Tailoring Business
+                    <h3 className="font-bold text-white text-lg flex items-center gap-2">
+                      <Scissors className="w-5 h-5 text-cyan-400" /> Laundry & Tailoring Business
                     </h3>
-                    <p className="text-slate-600 text-sm mt-2 leading-relaxed">
+                    <p className="text-cyan-100 text-sm mt-2 leading-relaxed">
                       ALiCo at Artane Shopping Centre is Dublin's premier destination for expert garment care, precision measuring, and professional alterations.
                     </p>
                   </div>
 
-                  <div className="space-y-3 text-sm text-slate-700">
-                    <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-cyan-600 shrink-0" /> Artane Shopping Centre, Dublin, Ireland</p>
-                    <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-cyan-600 shrink-0" /> Mon – Fri: 9:00 AM – 6:30 PM, Sat: 10:00 AM – 5:00 PM</p>
+                  <div className="space-y-3 text-sm text-cyan-100">
+                    <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-cyan-400 shrink-0" /> Artane Shopping Centre, Dublin, Ireland</p>
+                    <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-cyan-400 shrink-0" /> Mon – Fri: 9:00 AM – 6:30 PM, Sat: 10:00 AM – 5:00 PM</p>
                   </div>
                 </div>
 
                 <button
                   onClick={openNativeMaps}
-                  className="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3.5 px-6 rounded-2xl transition shadow-lg shadow-cyan-600/25 flex items-center justify-center gap-2 mt-6 text-sm"
+                  className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-3.5 px-6 rounded-2xl transition shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2 mt-6 text-sm"
                 >
                   <Navigation className="w-4 h-4" /> Get Directions
                 </button>
               </div>
 
-              <div className="bg-gradient-to-br from-teal-950 via-slate-900 to-cyan-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden border border-cyan-500/20">
+              <div className="bg-gradient-to-br from-teal-950 via-slate-900 to-cyan-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden border border-cyan-500/30">
                 <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                   <CreditCard className="w-32 h-32" />
                 </div>
 
                 <div className="space-y-4 relative z-10">
-                  <div className="w-12 h-12 rounded-2xl bg-cyan-500/30 border border-cyan-400/30 flex items-center justify-center text-cyan-300">
+                  <div className="w-12 h-12 rounded-2xl bg-cyan-500/30 border border-cyan-400/40 flex items-center justify-center text-cyan-300">
                     <CreditCard className="w-6 h-6" />
                   </div>
                   <div>
                     <h3 className="font-extrabold text-xl text-white">Mandatory Up Front Policy</h3>
                     <p className="text-xs text-cyan-300 font-bold uppercase tracking-wider mt-1">Payment Upon Drop-Off</p>
                   </div>
-                  <p className="text-slate-200 text-sm leading-relaxed">
+                  <p className="text-cyan-100 text-sm leading-relaxed">
                     Please note that **all items and garments brought into ALiCo must be paid up front** at the time of drop-off. 
                   </p>
                   <div className="bg-white/10 border border-white/20 rounded-2xl p-4 text-xs text-cyan-100 space-y-2">
@@ -635,7 +637,7 @@ export default function App() {
                 </div>
 
                 <div className="relative z-10 pt-2">
-                  <span className="text-xs text-slate-400 block text-center font-medium">Thank you for your cooperation and trust in ALiCo.</span>
+                  <span className="text-xs text-cyan-300 block text-center font-medium">Thank you for your cooperation and trust in ALiCo.</span>
                 </div>
               </div>
             </div>
@@ -643,21 +645,21 @@ export default function App() {
         )}
 
         {activeTab === 'menu' && (
-          <div className="max-w-3xl mx-auto bg-white/95 backdrop-blur-md border border-cyan-200 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-3xl mx-auto bg-[#0e495f]/95 backdrop-blur-md border border-cyan-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6 text-white">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
-              <h2 className="text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
-              <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide. (Payment up front only).</p>
+              <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
+              <h2 className="text-3xl font-bold text-white mt-1">Standard Price Menu</h2>
+              <p className="text-cyan-100 text-sm">Professional laundry care and alterations pricing guide. (Payment up front only).</p>
             </div>
 
-            <div className="divide-y divide-cyan-100 text-sm font-medium">
+            <div className="divide-y divide-cyan-500/20 text-sm font-medium">
               {Object.entries(alterationOptions).map(([catKey, items]) => (
                 <div key={catKey} className="py-4 space-y-2">
-                  <h3 className="font-extrabold text-cyan-900 text-sm uppercase tracking-wider bg-cyan-100/80 px-3 py-1.5 rounded-lg">{catKey}</h3>
+                  <h3 className="font-extrabold text-cyan-200 text-sm uppercase tracking-wider bg-[#093544] px-3 py-1.5 rounded-lg border border-cyan-500/30">{catKey}</h3>
                   {items.map((item, idx) => (
-                    <div key={`${catKey}-${idx}`} className="py-2.5 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                      <span className="text-slate-800">{item.name}</span>
-                      <span className="font-extrabold text-cyan-600 text-base">€{item.price.toFixed(2)}</span>
+                    <div key={`${catKey}-${idx}`} className="py-2.5 flex justify-between items-center hover:bg-cyan-900/30 px-3 rounded-xl transition">
+                      <span className="text-cyan-100">{item.name}</span>
+                      <span className="font-extrabold text-cyan-400 text-base">€{item.price.toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
@@ -674,7 +676,7 @@ export default function App() {
           href="https://wa.me/353860872382?text=Hi%20ALiCo%2C%20I%20would%20like%20to%20inquire%20about%20laundry%20and%20tailoring%20services." 
           target="_blank" 
           rel="noopener noreferrer"
-          className="bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative border-2 border-white/20"
           aria-label="Chat on WhatsApp"
         >
           <MessageCircle className="w-6 h-6 fill-white text-emerald-500" />
@@ -685,7 +687,7 @@ export default function App() {
 
         <a 
           href="tel:+353860872382" 
-          className="bg-cyan-600 hover:bg-cyan-500 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative"
+          className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative border-2 border-white/20"
           aria-label="Call Store"
         >
           <PhoneCall className="w-6 h-6" />
@@ -695,9 +697,9 @@ export default function App() {
         </a>
       </div>
 
-      <footer className="border-t border-cyan-200 bg-white/80 backdrop-blur-md py-6 text-center text-xs text-slate-500 font-medium space-y-1">
+      <footer className="border-t border-cyan-500/30 bg-[#093544]/90 backdrop-blur-md py-6 text-center text-xs text-cyan-200/80 font-medium space-y-1">
         <p>© {new Date().getFullYear()} ALiCo Laundry & Tailoring Business. Artane Shopping Centre, Dublin, Ireland.</p>
-        <p className="text-teal-700 font-bold">Strict Policy Reminder: Payment up front only upon drop-off.</p>
+        <p className="text-cyan-300 font-bold">Strict Policy Reminder: Payment up front only upon drop-off.</p>
       </footer>
     </div>
   );
