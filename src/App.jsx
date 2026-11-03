@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Scissors, 
   Shirt, 
@@ -25,14 +25,15 @@ import tailorImage from './tailor.png';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
-  
-  // Price Estimator state
-  const [selectedGarment, setSelectedGarment] = useState('trousers');
-  const [selectedAlteration, setSelectedAlteration] = useState('Hemming / Length adjustment (€12.00)');
-  const [estimatePrice, setEstimatePrice] = useState('12.00');
 
-  // Detailed alteration & laundry options
-  const alterationOptions = {
+  // Dynamic Price Menu & Estimator State (Synced with Firestore)
+  const [alterationOptions, setAlterationOptions] = useState({
+    laundry: [
+      { name: 'Wash, Dry & Fold (Per Kg)', price: 6.50 },
+      { name: 'Dry Cleaning (Standard Suit / Coat)', price: 14.00 },
+      { name: 'Duvet / Heavy Bedding Care', price: 22.00 },
+      { name: 'Ironing Only Service (Per item)', price: 4.00 }
+    ],
     trousers: [
       { name: 'Hemming / Length adjustment', price: 12.00 },
       { name: 'Waist take-in / Let-out', price: 16.00 },
@@ -69,14 +70,59 @@ export default function App() {
       { name: 'Hemming per metre', price: 15.00 },
       { name: 'Insert curtain tape / Header tape', price: 18.00 },
       { name: 'Width reduction', price: 22.00 }
-    ],
-    laundry: [
-      { name: 'Wash, Dry & Fold (Per Kg)', price: 6.50 },
-      { name: 'Dry Cleaning (Standard Suit / Coat)', price: 14.00 },
-      { name: 'Duvet / Heavy Bedding Care', price: 22.00 },
-      { name: 'Ironing Only Service (Per item)', price: 4.00 }
     ]
-  };
+  });
+
+  const [selectedGarment, setSelectedGarment] = useState('trousers');
+  const [selectedAlteration, setSelectedAlteration] = useState('Hemming / Length adjustment (€12.00)');
+  const [estimatePrice, setEstimatePrice] = useState('12.00');
+
+  // Fetch prices live from Firebase Firestore so your ticketing app and website stay synchronized
+  useEffect(() => {
+    const fetchLivePrices = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'prices'));
+        if (!querySnapshot.empty) {
+          const fetchedOptions = {
+            laundry: [],
+            trousers: [],
+            jacket: [],
+            dress: [],
+            shirt: [],
+            skirt: [],
+            curtains: []
+          };
+
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const cat = data.category ? data.category.toLowerCase().trim() : 'trousers';
+            if (fetchedOptions[cat]) {
+              fetchedOptions[cat].push({
+                name: data.name || data.serviceName || 'Service',
+                price: Number(data.price || data.cost || 0)
+              });
+            }
+          });
+
+          // Only overwrite if fetched successfully
+          const hasItems = Object.values(fetchedOptions.some(arr => arr.length > 0));
+          if (hasItems) {
+            setAlterationOptions(fetchedOptions);
+            // Set initial selected option based on fetched data
+            const firstCatOpts = fetchedOptions[selectedGarment] || fetchedOptions['trousers'];
+            if (firstCatOpts.length > 0) {
+              setSelectedAlteration(`${firstCatOpts[0].name} (€${firstCatOpts[0].price.toFixed(2)})`);
+              setEstimatePrice(firstCatOpts[0].price.toFixed(2));
+            }
+          }
+        }
+      } catch (err) {
+        console.log("Using default price list structure:", err);
+      }
+    };
+
+    fetchLivePrices();
+  }, []);
 
   const handleGarmentChange = (garmentKey) => {
     setSelectedGarment(garmentKey);
@@ -254,7 +300,7 @@ export default function App() {
         {activeTab === 'overview' && (
           <div className="space-y-12 py-2">
             
-            {/* MATCHING POLICY BANNER (Teal/Cyan themed) */}
+            {/* MANDATORY POLICY BANNER */}
             <div className="bg-gradient-to-r from-teal-800 via-cyan-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-cyan-500/30">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0 shadow-inner">
@@ -387,7 +433,7 @@ export default function App() {
         {activeTab === 'estimator' && (
           <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Transparent Quote Generator</span>
+              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Synchronized Rates</span>
               <h2 className="text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
               <p className="text-slate-600 text-sm">Select your garment or laundry service for an instant price estimate.</p>
             </div>
@@ -417,7 +463,7 @@ export default function App() {
                   onChange={(e) => handleAlterationChange(e.target.value)}
                   className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
                 >
-                  {alterationOptions[selectedGarment].map((alt, index) => (
+                  {(alterationOptions[selectedGarment] || []).map((alt, index) => (
                     <option key={index} value={`${alt.name} (€${alt.price.toFixed(2)})`}>
                       {alt.name} — €{alt.price.toFixed(2)}
                     </option>
@@ -555,48 +601,24 @@ export default function App() {
           </div>
         )}
 
-        {/* PRICE MENU TAB */}
+        {/* PRICE MENU TAB (Synced Live) */}
         {activeTab === 'menu' && (
           <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Transparent Rates</span>
+              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Synchronized Rates</span>
               <h2 className="text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
               <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide. (Payment required upfront).</p>
             </div>
 
             <div className="divide-y divide-cyan-50 text-sm font-medium">
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Wash, Dry & Fold (Per Kg)</span>
-                <span className="font-extrabold text-cyan-600 text-base">€6.50</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Dry Cleaning (Standard Suit / Coat)</span>
-                <span className="font-extrabold text-cyan-600 text-base">€14.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Duvet / Heavy Bedding Care</span>
-                <span className="font-extrabold text-cyan-600 text-base">€22.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Trousers Hemming / Adjustment</span>
-                <span className="font-extrabold text-cyan-600 text-base">€12.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Trousers Waist Take-in</span>
-                <span className="font-extrabold text-cyan-600 text-base">€16.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Jacket Sleeve Shortening</span>
-                <span className="font-extrabold text-cyan-600 text-base">€22.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Dress Hem Shortening</span>
-                <span className="font-extrabold text-cyan-600 text-base">€25.00</span>
-              </div>
-              <div className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                <span className="text-slate-800">Zip Replacement (Jacket / Jeans)</span>
-                <span className="font-extrabold text-cyan-600 text-base">€18.00</span>
-              </div>
+              {Object.entries(alterationOptions).map(([catKey, items]) => (
+                items.map((item, idx) => (
+                  <div key={`${catKey}-${idx}`} className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
+                    <span className="text-slate-800">{item.name}</span>
+                    <span className="font-extrabold text-cyan-600 text-base">€{item.price.toFixed(2)}</span>
+                  </div>
+                ))
+              ))}
             </div>
           </div>
         )}
