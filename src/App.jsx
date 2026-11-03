@@ -18,7 +18,10 @@ import {
   Info,
   AlertTriangle,
   MessageCircle,
-  PhoneCall
+  PhoneCall,
+  Plus,
+  Trash2,
+  ShoppingCart
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -70,8 +73,10 @@ export default function App() {
 
   const categories = Object.keys(alterationOptions);
   const [selectedGarment, setSelectedGarment] = useState(categories[0]);
-  const [selectedAlteration, setSelectedAlteration] = useState('');
-  const [estimatePrice, setEstimatePrice] = useState('0.00');
+  const [selectedAlterationObj, setSelectedAlterationObj] = useState(alterationOptions[categories[0]][0]);
+  
+  // Multi-item estimate cart state
+  const [estimateCart, setEstimateCart] = useState([]);
 
   // Automatically fetch ALL categories and prices live from Firestore (checking both 'priceBook' and 'prices')
   useEffect(() => {
@@ -97,8 +102,6 @@ export default function App() {
 
           querySnapshot.forEach((docSnap) => {
             const data = docSnap.data();
-            
-            // Support all possible category property names from your ticketing app
             let cat = data.category || data.serviceCategory || data.type || data.group || 'General Services';
             cat = cat.trim();
 
@@ -109,7 +112,6 @@ export default function App() {
             const itemName = data.name || data.serviceName || data.title || data.item || 'Service Item';
             const itemPrice = Number(data.price || data.cost || data.amount || 0);
 
-            // Update or add item dynamically
             const existingIndex = liveOptions[cat].findIndex(i => i.name.toLowerCase() === itemName.toLowerCase());
             if (existingIndex >= 0) {
               liveOptions[cat][existingIndex].price = itemPrice;
@@ -119,6 +121,11 @@ export default function App() {
           });
 
           setAlterationOptions(liveOptions);
+          const firstCat = Object.keys(liveOptions)[0];
+          setSelectedGarment(firstCat);
+          if (liveOptions[firstCat].length > 0) {
+            setSelectedAlterationObj(liveOptions[firstCat][0]);
+          }
         }
       } catch (err) {
         console.error("Error fetching live prices from Firestore:", err);
@@ -128,29 +135,41 @@ export default function App() {
     fetchLivePrices();
   }, []);
 
-  // Update selected alteration options when category changes
+  // Update selected alteration when category changes
   useEffect(() => {
     const options = alterationOptions[selectedGarment] || [];
     if (options.length > 0) {
-      setSelectedAlteration(`${options[0].name} (€${options[0].price.toFixed(2)})`);
-      setEstimatePrice(options[0].price.toFixed(2));
-    } else {
-      setSelectedAlteration('');
-      setEstimatePrice('0.00');
+      setSelectedAlterationObj(options[0]);
     }
   }, [selectedGarment, alterationOptions]);
 
   const handleGarmentChange = (garmentKey) => {
     setSelectedGarment(garmentKey);
-  };
-
-  const handleAlterationChange = (altString) => {
-    setSelectedAlteration(altString);
-    const match = altString.match(/€([\d.]+)/);
-    if (match && match[1]) {
-      setEstimatePrice(match[1]);
+    const options = alterationOptions[garmentKey] || [];
+    if (options.length > 0) {
+      setSelectedAlterationObj(options[0]);
     }
   };
+
+  const handleAddItemToEstimate = () => {
+    if (!selectedAlterationObj) return;
+
+    // Check if item already exists in cart, if so increase quantity or add as new line item
+    const newItem = {
+      id: Date.now(),
+      category: selectedGarment,
+      name: selectedAlterationObj.name,
+      price: selectedAlterationObj.price
+    };
+
+    setEstimateCart([...estimateCart, newItem]);
+  };
+
+  const handleRemoveItem = (id) => {
+    setEstimateCart(estimateCart.filter(item => item.id !== id));
+  };
+
+  const totalEstimatePrice = estimateCart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
 
   // Order Tracker state
   const [ticketQuery, setTicketQuery] = useState('');
@@ -389,21 +408,22 @@ export default function App() {
           </div>
         )}
 
+        {/* MULTI-ITEM PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
-          <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Synchronized Rates</span>
+              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Multi-Item Quote Builder</span>
               <h2 className="text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
-              <p className="text-slate-600 text-sm">Select your garment or laundry service for an instant price estimate.</p>
+              <p className="text-slate-600 text-sm">Select multiple garments or laundry services, add them to your estimate, and review your total.</p>
             </div>
 
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-cyan-50/50 p-6 rounded-3xl border border-cyan-200">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">1. Select Garment or Service Category</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">1. Select Category</label>
                 <select
                   value={selectedGarment}
                   onChange={(e) => handleGarmentChange(e.target.value)}
-                  className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
+                  className="w-full bg-white border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
                 >
                   {Object.keys(alterationOptions).map((catName) => (
                     <option key={catName} value={catName}>{catName}</option>
@@ -412,29 +432,77 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">2. Select Specific Service / Alteration</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">2. Select Service / Item</label>
                 <select
-                  value={selectedAlteration}
-                  onChange={(e) => handleAlterationChange(e.target.value)}
-                  className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
+                  value={selectedAlterationObj ? selectedAlterationObj.name : ''}
+                  onChange={(e) => {
+                    const found = (alterationOptions[selectedGarment] || []).find(i => i.name === e.target.value);
+                    if (found) setSelectedAlterationObj(found);
+                  }}
+                  className="w-full bg-white border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
                 >
                   {(alterationOptions[selectedGarment] || []).map((alt, index) => (
-                    <option key={index} value={`${alt.name} (€${alt.price.toFixed(2)})`}>
+                    <option key={index} value={alt.name}>
                       {alt.name} — €{alt.price.toFixed(2)}
                     </option>
                   ))}
                 </select>
               </div>
 
-              <div className="bg-gradient-to-r from-teal-700 to-cyan-600 text-white rounded-2xl p-6 flex justify-between items-center shadow-lg shadow-cyan-500/20">
-                <div>
-                  <p className="text-xs uppercase font-bold tracking-widest text-cyan-100">Estimated Price</p>
-                  <p className="text-4xl font-extrabold mt-1">€{estimatePrice}</p>
-                </div>
-                <span className="text-xs text-cyan-100 text-right max-w-[190px] leading-relaxed font-medium">
-                  Payment is required upfront upon drop-off at Grafton Street.
-                </span>
+              <div className="md:col-span-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleAddItemToEstimate}
+                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-cyan-600/25 flex items-center gap-2 text-sm"
+                >
+                  <Plus className="w-4 h-4" /> Add Item to Estimate
+                </button>
               </div>
+            </div>
+
+            {/* ESTIMATE CART / SELECTED ITEMS */}
+            <div className="space-y-4">
+              <h3 className="font-extrabold text-slate-900 text-lg flex items-center gap-2">
+                <ShoppingCart className="w-5 h-5 text-cyan-600" /> Selected Items ({estimateCart.length})
+              </h3>
+
+              {estimateCart.length === 0 ? (
+                <div className="border-2 border-dashed border-cyan-200 rounded-3xl p-8 text-center text-slate-500 text-sm font-medium bg-white">
+                  No items added yet. Select a category and service above and click "Add Item to Estimate".
+                </div>
+              ) : (
+                <div className="divide-y divide-cyan-100 border border-cyan-100 rounded-3xl bg-white overflow-hidden shadow-sm">
+                  {estimateCart.map((item) => (
+                    <div key={item.id} className="p-4 sm:p-5 flex justify-between items-center hover:bg-cyan-50/40 transition">
+                      <div>
+                        <span className="text-xs font-extrabold text-cyan-700 uppercase tracking-wider block">{item.category}</span>
+                        <h4 className="font-bold text-slate-900 text-base">{item.name}</h4>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <span className="font-extrabold text-cyan-600 text-lg">€{item.price.toFixed(2)}</span>
+                        <button
+                          onClick={() => handleRemoveItem(item.id)}
+                          className="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-xl transition shadow-sm"
+                          title="Remove item"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* TOTAL ESTIMATE BANNER */}
+            <div className="bg-gradient-to-r from-teal-700 to-cyan-600 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl shadow-cyan-500/20">
+              <div>
+                <p className="text-xs uppercase font-bold tracking-widest text-cyan-100">Total Estimated Price</p>
+                <p className="text-4xl sm:text-5xl font-extrabold mt-1">€{totalEstimatePrice}</p>
+              </div>
+              <span className="text-xs text-cyan-100 text-center sm:text-right max-w-[220px] leading-relaxed font-medium">
+                Payment is required upfront upon drop-off at Grafton Street.
+              </span>
             </div>
           </div>
         )}
@@ -580,7 +648,6 @@ export default function App() {
 
       {/* FLOATING QUICK CONTACT WIDGET (WhatsApp & Call) */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-        {/* WhatsApp Button */}
         <a 
           href="https://wa.me/353860872382?text=Hi%20ALiCo%2C%20I%20would%20like%20to%20inquire%20about%20laundry%20and%20tailoring%20services." 
           target="_blank" 
@@ -594,7 +661,6 @@ export default function App() {
           </span>
         </a>
 
-        {/* Tap-to-Call Button */}
         <a 
           href="tel:+353860872382" 
           className="bg-cyan-600 hover:bg-cyan-500 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative"
