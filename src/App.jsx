@@ -26,24 +26,11 @@ import tailorImage from './tailor.png';
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
 
+  // Fully dynamic state populated straight from Firestore
   const [alterationOptions, setAlterationOptions] = useState({
     'Trousers / Jeans': [
       { name: 'Standard Hemming', price: 15.00 },
-      { name: 'Original Hemming (Keep Fade)', price: 15.00 },
-      { name: 'Zip Runner / Slider Replacement', price: 8.00 },
-      { name: 'New Button / Hook & Bar', price: 5.00 },
-      { name: 'Taper Legs', price: 18.00 },
-      { name: 'Full Zip Replacement', price: 18.00 },
-      { name: 'Patch / Mending', price: 8.00 },
       { name: 'Waist Take-in / Let-out', price: 16.00 }
-    ],
-    'Suit Jacket / Blazer': [
-      { name: 'Take in Side Seams', price: 28.00 },
-      { name: 'Shorten Length from Bottom', price: 30.00 },
-      { name: 'Sleeve Shortening (Plain)', price: 22.00 },
-      { name: 'Shoulder Adjustment', price: 45.00 },
-      { name: 'Sleeve Shortening (Working Cuffs)', price: 35.00 },
-      { name: 'Replace Lining', price: 65.00 }
     ]
   });
 
@@ -52,7 +39,7 @@ export default function App() {
   const [selectedAlteration, setSelectedAlteration] = useState('');
   const [estimatePrice, setEstimatePrice] = useState('0.00');
 
-  // Fetch live prices from Firestore (supports both 'prices' and 'priceBook' collections)
+  // Automatically fetch ALL categories and prices live from Firestore
   useEffect(() => {
     const fetchLivePrices = async () => {
       try {
@@ -68,9 +55,8 @@ export default function App() {
 
           querySnapshot.forEach((docSnap) => {
             const data = docSnap.data();
-            // Match category from your ticketing app (e.g. "Trousers / Jeans", "Suit Jacket / Blazer", etc.)
-            let cat = data.category || data.serviceCategory || 'Trousers / Jeans';
-            // Normalize spacing if needed
+            // Pull category name dynamically (supports category, serviceCategory, type, etc.)
+            let cat = data.category || data.serviceCategory || data.type || 'General Services';
             cat = cat.trim();
 
             if (!fetchedOptions[cat]) {
@@ -78,7 +64,7 @@ export default function App() {
             }
 
             fetchedOptions[cat].push({
-              name: data.name || data.serviceName || data.title || 'Service',
+              name: data.name || data.serviceName || data.title || 'Service Item',
               price: Number(data.price || data.cost || data.amount || 0)
             });
           });
@@ -101,7 +87,7 @@ export default function App() {
     fetchLivePrices();
   }, []);
 
-  // Initialize selected alteration when garment category changes
+  // Update selected alteration options when category changes
   useEffect(() => {
     const options = alterationOptions[selectedGarment] || [];
     if (options.length > 0) {
