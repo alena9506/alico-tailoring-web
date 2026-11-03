@@ -26,111 +26,95 @@ import tailorImage from './tailor.png';
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Dynamic Price Menu & Estimator State (Synced with Firestore)
   const [alterationOptions, setAlterationOptions] = useState({
-    laundry: [
-      { name: 'Wash, Dry & Fold (Per Kg)', price: 6.50 },
-      { name: 'Dry Cleaning (Standard Suit / Coat)', price: 14.00 },
-      { name: 'Duvet / Heavy Bedding Care', price: 22.00 },
-      { name: 'Ironing Only Service (Per item)', price: 4.00 }
+    'Trousers / Jeans': [
+      { name: 'Standard Hemming', price: 15.00 },
+      { name: 'Original Hemming (Keep Fade)', price: 15.00 },
+      { name: 'Zip Runner / Slider Replacement', price: 8.00 },
+      { name: 'New Button / Hook & Bar', price: 5.00 },
+      { name: 'Taper Legs', price: 18.00 },
+      { name: 'Full Zip Replacement', price: 18.00 },
+      { name: 'Patch / Mending', price: 8.00 },
+      { name: 'Waist Take-in / Let-out', price: 16.00 }
     ],
-    trousers: [
-      { name: 'Hemming / Length adjustment', price: 12.00 },
-      { name: 'Waist take-in / Let-out', price: 16.00 },
-      { name: 'Zip replacement', price: 15.00 },
-      { name: 'Taper legs (Slimming)', price: 18.00 },
-      { name: 'New pocket lining', price: 14.00 }
-    ],
-    jacket: [
-      { name: 'Sleeve shortening (Plain cuff)', price: 22.00 },
-      { name: 'Sleeve shortening (Working buttonholes)', price: 35.00 },
-      { name: 'Take in / Let out side seams', price: 30.00 },
-      { name: 'Full jacket resize', price: 45.00 },
-      { name: 'New jacket lining', price: 65.00 }
-    ],
-    dress: [
-      { name: 'Hem shortening (Simple / Single layer)', price: 25.00 },
-      { name: 'Hem shortening (Multi-layer / Formal)', price: 40.00 },
-      { name: 'Take in side seams / Refitting', price: 28.00 },
-      { name: 'Strap adjustment', price: 15.00 },
-      { name: 'Zip replacement (Invisible zip)', price: 22.00 }
-    ],
-    shirt: [
-      { name: 'Sleeve shortening', price: 18.00 },
-      { name: 'Take in side seams (Slim fit)', price: 15.00 },
-      { name: 'Darts in back', price: 14.00 },
-      { name: 'Collar / Cuff replacement', price: 20.00 }
-    ],
-    skirt: [
-      { name: 'Hem shortening', price: 18.00 },
-      { name: 'Waist adjustment', price: 16.00 },
-      { name: 'Zip replacement', price: 18.00 }
-    ],
-    curtains: [
-      { name: 'Hemming per metre', price: 15.00 },
-      { name: 'Insert curtain tape / Header tape', price: 18.00 },
-      { name: 'Width reduction', price: 22.00 }
+    'Suit Jacket / Blazer': [
+      { name: 'Take in Side Seams', price: 28.00 },
+      { name: 'Shorten Length from Bottom', price: 30.00 },
+      { name: 'Sleeve Shortening (Plain)', price: 22.00 },
+      { name: 'Shoulder Adjustment', price: 45.00 },
+      { name: 'Sleeve Shortening (Working Cuffs)', price: 35.00 },
+      { name: 'Replace Lining', price: 65.00 }
     ]
   });
 
-  const [selectedGarment, setSelectedGarment] = useState('trousers');
-  const [selectedAlteration, setSelectedAlteration] = useState('Hemming / Length adjustment (€12.00)');
-  const [estimatePrice, setEstimatePrice] = useState('12.00');
+  const categories = Object.keys(alterationOptions);
+  const [selectedGarment, setSelectedGarment] = useState(categories[0] || 'Trousers / Jeans');
+  const [selectedAlteration, setSelectedAlteration] = useState('');
+  const [estimatePrice, setEstimatePrice] = useState('0.00');
 
-  // Fetch prices live from Firebase Firestore so your ticketing app and website stay synchronized
+  // Fetch live prices from Firestore (supports both 'prices' and 'priceBook' collections)
   useEffect(() => {
     const fetchLivePrices = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'prices'));
-        if (!querySnapshot.empty) {
-          const fetchedOptions = {
-            laundry: [],
-            trousers: [],
-            jacket: [],
-            dress: [],
-            shirt: [],
-            skirt: [],
-            curtains: []
-          };
+        let querySnapshot;
+        try {
+          querySnapshot = await getDocs(collection(db, 'prices'));
+        } catch (e) {
+          querySnapshot = await getDocs(collection(db, 'priceBook'));
+        }
 
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            const cat = data.category ? data.category.toLowerCase().trim() : 'trousers';
-            if (fetchedOptions[cat]) {
-              fetchedOptions[cat].push({
-                name: data.name || data.serviceName || 'Service',
-                price: Number(data.price || data.cost || 0)
-              });
+        if (querySnapshot && !querySnapshot.empty) {
+          const fetchedOptions = {};
+
+          querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            // Match category from your ticketing app (e.g. "Trousers / Jeans", "Suit Jacket / Blazer", etc.)
+            let cat = data.category || data.serviceCategory || 'Trousers / Jeans';
+            // Normalize spacing if needed
+            cat = cat.trim();
+
+            if (!fetchedOptions[cat]) {
+              fetchedOptions[cat] = [];
             }
+
+            fetchedOptions[cat].push({
+              name: data.name || data.serviceName || data.title || 'Service',
+              price: Number(data.price || data.cost || data.amount || 0)
+            });
           });
 
-          // Only overwrite if fetched successfully
-          const hasItems = Object.values(fetchedOptions.some(arr => arr.length > 0));
-          if (hasItems) {
+          if (Object.keys(fetchedOptions).length > 0) {
             setAlterationOptions(fetchedOptions);
-            // Set initial selected option based on fetched data
-            const firstCatOpts = fetchedOptions[selectedGarment] || fetchedOptions['trousers'];
-            if (firstCatOpts.length > 0) {
-              setSelectedAlteration(`${firstCatOpts[0].name} (€${firstCatOpts[0].price.toFixed(2)})`);
-              setEstimatePrice(firstCatOpts[0].price.toFixed(2));
+            const firstCat = Object.keys(fetchedOptions)[0];
+            setSelectedGarment(firstCat);
+            if (fetchedOptions[firstCat].length > 0) {
+              setSelectedAlteration(`${fetchedOptions[firstCat][0].name} (€${fetchedOptions[firstCat][0].price.toFixed(2)})`);
+              setEstimatePrice(fetchedOptions[firstCat][0].price.toFixed(2));
             }
           }
         }
       } catch (err) {
-        console.log("Using default price list structure:", err);
+        console.error("Error fetching live prices from Firestore:", err);
       }
     };
 
     fetchLivePrices();
   }, []);
 
-  const handleGarmentChange = (garmentKey) => {
-    setSelectedGarment(garmentKey);
-    const options = alterationOptions[garmentKey];
-    if (options && options.length > 0) {
+  // Initialize selected alteration when garment category changes
+  useEffect(() => {
+    const options = alterationOptions[selectedGarment] || [];
+    if (options.length > 0) {
       setSelectedAlteration(`${options[0].name} (€${options[0].price.toFixed(2)})`);
       setEstimatePrice(options[0].price.toFixed(2));
+    } else {
+      setSelectedAlteration('');
+      setEstimatePrice('0.00');
     }
+  }, [selectedGarment, alterationOptions]);
+
+  const handleGarmentChange = (garmentKey) => {
+    setSelectedGarment(garmentKey);
   };
 
   const handleAlterationChange = (altString) => {
@@ -222,7 +206,6 @@ export default function App() {
       <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-4 sm:px-8 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
           
-          {/* Prominent Logo */}
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
             <img 
               src={logoImage} 
@@ -235,15 +218,12 @@ export default function App() {
             </div>
           </div>
 
-          {/* Navigation Bar */}
           <nav className="bg-cyan-50/80 p-1.5 rounded-2xl border border-cyan-100 shadow-inner w-full lg:w-auto">
             <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1">
               <button
                 onClick={() => setActiveTab('overview')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
-                  activeTab === 'overview'
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30'
-                    : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+                  activeTab === 'overview' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
                 Overview
@@ -251,9 +231,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('estimator')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
-                  activeTab === 'estimator'
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30'
-                    : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+                  activeTab === 'estimator' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
                 Price Estimator
@@ -261,9 +239,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('tracker')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
-                  activeTab === 'tracker'
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30'
-                    : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+                  activeTab === 'tracker' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
                 Live Tracker
@@ -271,9 +247,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('about')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
-                  activeTab === 'about'
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30'
-                    : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+                  activeTab === 'about' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
                 <Info className="w-3.5 h-3.5 shrink-0" /> About & Policy
@@ -281,9 +255,7 @@ export default function App() {
               <button
                 onClick={() => setActiveTab('menu')}
                 className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
-                  activeTab === 'menu'
-                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30'
-                    : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+                  activeTab === 'menu' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
                 Price Menu
@@ -296,11 +268,8 @@ export default function App() {
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-12">
         
-        {/* OVERVIEW TAB */}
         {activeTab === 'overview' && (
           <div className="space-y-12 py-2">
-            
-            {/* MANDATORY POLICY BANNER */}
             <div className="bg-gradient-to-r from-teal-800 via-cyan-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-cyan-500/30">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0 shadow-inner">
@@ -322,7 +291,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* HERO BANNER WITH COMMERCIAL LAUNDRY & LOCAL TAILOR IMAGE */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
                 <div className="flex flex-wrap items-center gap-3">
@@ -330,7 +298,6 @@ export default function App() {
                     <Waves className="w-4 h-4 text-cyan-600" /> Dublin City Centre Studio
                   </span>
                   
-                  {/* Trustpilot 5-Star Badge */}
                   <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs px-3 py-1.5 rounded-full font-bold shadow-sm">
                     <span className="text-emerald-700 font-extrabold">Trustpilot</span>
                     <div className="flex text-amber-400 gap-0.5">
@@ -368,7 +335,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Visuals: 1. Wash & Dry Hub | 2. Local Tailor Chalk & Measuring Image */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-cyan-100 group">
                   <img 
@@ -393,43 +359,9 @@ export default function App() {
                 </div>
               </div>
             </div>
-
-            {/* SERVICES CARDS */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white border border-cyan-100 hover:border-cyan-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-cyan-950/5 group">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition">
-                  <Shirt className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">Laundry & Dry Cleaning</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  Professional wash, dry & fold by weight, delicate dry cleaning for suits and coats, and deep-clean care for heavy duvets and linens.
-                </p>
-              </div>
-
-              <div className="bg-white border border-cyan-100 hover:border-cyan-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-cyan-950/5 group">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition">
-                  <Scissors className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">Precision Alterations</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  Expert trouser hemming, waist adjustments, jacket resizing, dress refitting, and durable zip replacements done to perfection.
-                </p>
-              </div>
-
-              <div className="bg-white border border-cyan-100 hover:border-cyan-400 transition p-8 rounded-3xl space-y-4 shadow-xl shadow-cyan-950/5 group">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition">
-                  <Clock className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900">Live Status Tracker</h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  Check your ticket code online anytime to instantly view real-time progress updates on when your garments are ready for collection.
-                </p>
-              </div>
-            </div>
           </div>
         )}
 
-        {/* PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
           <div className="max-w-2xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
@@ -446,13 +378,9 @@ export default function App() {
                   onChange={(e) => handleGarmentChange(e.target.value)}
                   className="w-full bg-cyan-50/50 border border-cyan-200 rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-cyan-600 text-slate-900 shadow-inner font-medium"
                 >
-                  <option value="laundry">Laundry & Dry Cleaning Services</option>
-                  <option value="trousers">Trousers / Jeans</option>
-                  <option value="jacket">Suit Jacket / Blazer</option>
-                  <option value="dress">Dress / Formal Wear</option>
-                  <option value="shirt">Shirt / Blouse</option>
-                  <option value="skirt">Skirt</option>
-                  <option value="curtains">Curtains / Home Textiles</option>
+                  {Object.keys(alterationOptions).map((catName) => (
+                    <option key={catName} value={catName}>{catName}</option>
+                  ))}
                 </select>
               </div>
 
@@ -484,7 +412,6 @@ export default function App() {
           </div>
         )}
 
-        {/* ORDER TRACKER TAB */}
         {activeTab === 'tracker' && (
           <div className="max-w-xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
@@ -534,7 +461,6 @@ export default function App() {
           </div>
         )}
 
-        {/* ABOUT & POLICY TAB */}
         {activeTab === 'about' && (
           <div className="max-w-4xl mx-auto space-y-8 py-2">
             <div>
@@ -544,7 +470,6 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* About Studio */}
               <div className="bg-white border border-cyan-100 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
                   <div>
@@ -570,7 +495,6 @@ export default function App() {
                 </button>
               </div>
 
-              {/* Upfront Payment Policy Card */}
               <div className="bg-gradient-to-br from-teal-950 via-slate-900 to-cyan-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden border border-cyan-500/20">
                 <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                   <CreditCard className="w-32 h-32" />
@@ -601,7 +525,6 @@ export default function App() {
           </div>
         )}
 
-        {/* PRICE MENU TAB (Synced Live) */}
         {activeTab === 'menu' && (
           <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
@@ -612,12 +535,15 @@ export default function App() {
 
             <div className="divide-y divide-cyan-50 text-sm font-medium">
               {Object.entries(alterationOptions).map(([catKey, items]) => (
-                items.map((item, idx) => (
-                  <div key={`${catKey}-${idx}`} className="py-4 flex justify-between items-center hover:bg-cyan-50/60 px-3 rounded-xl transition">
-                    <span className="text-slate-800">{item.name}</span>
-                    <span className="font-extrabold text-cyan-600 text-base">€{item.price.toFixed(2)}</span>
-                  </div>
-                ))
+                <div key={catKey} className="py-4 space-y-2">
+                  <h3 className="font-extrabold text-cyan-900 text-sm uppercase tracking-wider bg-cyan-50/80 px-3 py-1.5 rounded-lg">{catKey}</h3>
+                  {items.map((item, idx) => (
+                    <div key={`${catKey}-${idx}`} className="py-2.5 flex justify-between items-center hover:bg-cyan-50/40 px-3 rounded-xl transition">
+                      <span className="text-slate-800">{item.name}</span>
+                      <span className="font-extrabold text-cyan-600 text-base">€{item.price.toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
@@ -625,7 +551,6 @@ export default function App() {
 
       </main>
 
-      {/* FOOTER */}
       <footer className="border-t border-cyan-100 bg-white py-6 text-center text-xs text-slate-500 font-medium space-y-1">
         <p>© {new Date().getFullYear()} ALiCo Master Laundry & Tailoring. Grafton Street Area, Dublin, Ireland.</p>
         <p className="text-teal-700 font-bold">Strict Policy Reminder: All items must be paid upfront upon drop-off.</p>
