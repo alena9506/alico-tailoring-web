@@ -16,7 +16,9 @@ import {
   Star,
   CreditCard,
   Info,
-  AlertTriangle
+  AlertTriangle,
+  MessageCircle,
+  PhoneCall
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -218,7 +220,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/50 via-white to-teal-50/30 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-b from-cyan-50/50 via-white to-teal-50/30 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white relative">
       
       {/* TOP ANNOUNCEMENT BAR */}
       <div className="bg-gradient-to-r from-teal-700 via-cyan-700 to-teal-800 text-white text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
@@ -575,6 +577,35 @@ export default function App() {
         )}
 
       </main>
+
+      {/* FLOATING QUICK CONTACT WIDGET (WhatsApp & Call) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        {/* WhatsApp Button */}
+        <a 
+          href="https://wa.me/353860872382?text=Hi%20ALiCo%2C%20I%20would%20like%20to%20inquire%20about%20laundry%20and%20tailoring%20services." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative"
+          aria-label="Chat on WhatsApp"
+        >
+          <MessageCircle className="w-6 h-6 fill-white text-emerald-500" />
+          <span className="absolute right-14 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
+            Chat on WhatsApp
+          </span>
+        </a>
+
+        {/* Tap-to-Call Button */}
+        <a 
+          href="tel:+353860872382" 
+          className="bg-cyan-600 hover:bg-cyan-500 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative"
+          aria-label="Call Store"
+        >
+          <PhoneCall className="w-6 h-6" />
+          <span className="absolute right-14 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
+            Call +353 86 087 2382
+          </span>
+        </a>
+      </div>
 
       <footer className="border-t border-cyan-100 bg-white py-6 text-center text-xs text-slate-500 font-medium space-y-1">
         <p>© {new Date().getFullYear()} ALiCo Master Laundry & Tailoring. Grafton Street Area, Dublin, Ireland.</p>
