@@ -24,7 +24,7 @@ import {
   ShoppingCart
 } from 'lucide-react';
 import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot, getDocs } from 'firebase/firestore';
 import logoImage from './logo.png';
 import tailorImage from './tailor.png';
 
@@ -75,71 +75,72 @@ export default function App() {
   const [selectedGarment, setSelectedGarment] = useState(categories[0]);
   const [selectedAlterationObj, setSelectedAlterationObj] = useState(alterationOptions[categories[0]][0]);
   
-  // Multi-item estimate cart state
-  const [estimateCart, setEstimateCart] = useState([]);
+  // Multi-item estimate cart state saved in sessionStorage so it survives a refresh
+  const [estimateCart, setEstimateCart] = useState(() => {
+    const saved = sessionStorage.getItem('alico_estimate_cart');
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  // Automatically fetch ALL categories and prices live from Firestore (checking both 'priceBook' and 'prices')
   useEffect(() => {
-    const fetchLivePrices = async () => {
+    sessionStorage.setItem('alico_estimate_cart', JSON.stringify(estimateCart));
+  }, [estimateCart]);
+
+  // Real-time live price listener using Firestore onSnapshot
+  useEffect(() => {
+    const targetCollections = ['priceBook', 'prices', 'services', 'inventory'];
+    let unsubscribes = [];
+
+    targetCollections.forEach((colName) => {
       try {
-        let querySnapshot = null;
-        const targetCollections = ['priceBook', 'prices', 'services', 'inventory'];
+        const unsub = onSnapshot(collection(db, colName), (querySnapshot) => {
+          if (!querySnapshot.empty) {
+            setAlterationOptions((prevOptions) => {
+              const liveOptions = { ...prevOptions };
 
-        for (const colName of targetCollections) {
-          try {
-            const snap = await getDocs(collection(db, colName));
-            if (!snap.empty) {
-              querySnapshot = snap;
-              break;
-            }
-          } catch (e) {
-            // Try next collection
+              querySnapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                let cat = data.category || data.serviceCategory || data.type || data.group || 'General Services';
+                cat = cat.trim();
+
+                if (!liveOptions[cat]) {
+                  liveOptions[cat] = [];
+                }
+
+                const itemName = data.name || data.serviceName || data.title || data.item || 'Service Item';
+                const itemPrice = Number(data.price || data.cost || data.amount || 0);
+
+                const existingIndex = liveOptions[cat].findIndex(i => i.name.toLowerCase() === itemName.toLowerCase());
+                if (existingIndex >= 0) {
+                  liveOptions[cat][existingIndex].price = itemPrice;
+                } else {
+                  liveOptions[cat].push({ name: itemName, price: itemPrice });
+                }
+              });
+
+              return liveOptions;
+            });
           }
-        }
+        }, (err) => {
+          // Ignore permission errors on non-existent collections
+        });
 
-        if (querySnapshot && !querySnapshot.empty) {
-          const liveOptions = { ...alterationOptions };
-
-          querySnapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            let cat = data.category || data.serviceCategory || data.type || data.group || 'General Services';
-            cat = cat.trim();
-
-            if (!liveOptions[cat]) {
-              liveOptions[cat] = [];
-            }
-
-            const itemName = data.name || data.serviceName || data.title || data.item || 'Service Item';
-            const itemPrice = Number(data.price || data.cost || data.amount || 0);
-
-            const existingIndex = liveOptions[cat].findIndex(i => i.name.toLowerCase() === itemName.toLowerCase());
-            if (existingIndex >= 0) {
-              liveOptions[cat][existingIndex].price = itemPrice;
-            } else {
-              liveOptions[cat].push({ name: itemName, price: itemPrice });
-            }
-          });
-
-          setAlterationOptions(liveOptions);
-          const firstCat = Object.keys(liveOptions)[0];
-          setSelectedGarment(firstCat);
-          if (liveOptions[firstCat].length > 0) {
-            setSelectedAlterationObj(liveOptions[firstCat][0]);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching live prices from Firestore:", err);
+        unsubscribes.push(unsub);
+      } catch (e) {
+        // Skip if collection doesn't exist
       }
-    };
+    });
 
-    fetchLivePrices();
+    return () => {
+      unsubscribes.forEach(unsub => unsub());
+    };
   }, []);
 
   // Update selected alteration when category changes
   useEffect(() => {
     const options = alterationOptions[selectedGarment] || [];
     if (options.length > 0) {
-      setSelectedAlterationObj(options[0]);
+      const exists = options.find(i => selectedAlterationObj && i.name === selectedAlterationObj.name);
+      setSelectedAlterationObj(exists || options[0]);
     }
   }, [selectedGarment, alterationOptions]);
 
@@ -154,7 +155,6 @@ export default function App() {
   const handleAddItemToEstimate = () => {
     if (!selectedAlterationObj) return;
 
-    // Check if item already exists in cart, if so increase quantity or add as new line item
     const newItem = {
       id: Date.now(),
       category: selectedGarment,
@@ -412,9 +412,9 @@ export default function App() {
         {activeTab === 'estimator' && (
           <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Multi-Item Quote Builder</span>
+              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
               <h2 className="text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
-              <p className="text-slate-600 text-sm">Select multiple garments or laundry services, add them to your estimate, and review your total.</p>
+              <p className="text-slate-600 text-sm">Select multiple garments or services, add them to your estimate, and review your total.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-cyan-50/50 p-6 rounded-3xl border border-cyan-200">
@@ -623,7 +623,7 @@ export default function App() {
         {activeTab === 'menu' && (
           <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
             <div>
-              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Synchronized Rates</span>
+              <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
               <h2 className="text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
               <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide. (Payment required upfront).</p>
             </div>
