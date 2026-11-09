@@ -39,7 +39,6 @@ export default function App() {
     sessionStorage.setItem('alico_active_tab', activeTab);
   }, [activeTab]);
 
-  // Mobile menu open/close state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [alterationOptions, setAlterationOptions] = useState({
@@ -67,9 +66,9 @@ export default function App() {
       { name: 'Take in Side Seams / Refitting', price: 28.00 },
       { name: 'Strap Adjustment', price: 15.00 }
     ],
-    'Laundry & Dry Cleaning': [
-      { name: 'Wash, Dry & Fold (Per Kg)', price: 6.50 },
-      { name: 'Dry Cleaning (Standard Suit / Coat)', price: 14.00 },
+    'Laundry & Self-Service': [
+      { name: 'Self-Service Wash (Commercial Machine)', price: 6.50 },
+      { name: 'Self-Service Dryer (Per Cycle)', price: 4.00 },
       { name: 'Duvet / Heavy Bedding Care', price: 22.00 }
     ]
   });
@@ -262,7 +261,7 @@ export default function App() {
         <span>Strict Policy: Payment Up Front Only Upon Drop-Off</span>
       </div>
 
-      {/* HEADER & MOBILE MENU BUTTON */}
+      {/* HEADER & MOBILE HAMBURGER MENU BUTTON */}
       <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-4 sm:px-8 py-3.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           
@@ -322,7 +321,7 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Mobile Hamburger Menu Button */}
+          {/* Mobile Hamburger Menu Gear Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden bg-cyan-100 hover:bg-cyan-200 text-cyan-900 p-2.5 rounded-2xl transition shadow-sm flex items-center justify-center"
@@ -394,7 +393,7 @@ export default function App() {
                   <span className="bg-cyan-500/30 text-cyan-200 font-extrabold text-[10px] sm:text-[11px] px-3 py-1 rounded-full uppercase tracking-widest">Mandatory Store Policy</span>
                   <h3 className="text-lg sm:text-2xl font-extrabold text-white tracking-tight">Payment Up Front Only</h3>
                   <p className="text-cyan-100/90 text-xs sm:text-sm leading-relaxed max-w-2xl font-medium">
-                    Please note: No items or garments will be taken, accepted, or processed for laundry or alterations without prior payment up front upon drop-off.
+                    Please note: No tailoring orders or drop-off garments will be accepted or processed without prior payment up front upon drop-off.
                   </p>
                 </div>
               </div>
@@ -428,11 +427,11 @@ export default function App() {
                 </div>
                 
                 <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                  Expert Laundry & <span className="text-cyan-600">Tailoring Services</span>
+                  Expert Tailoring & <span className="text-cyan-600">Alterations Specialists</span>
                 </h1>
                 
                 <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-                  Welcome to ALiCo at Artane Shopping Centre. We provide professional garment alterations, precision tailoring, and commercial laundry care.
+                  Welcome to ALiCo at Artane Shopping Centre. We provide professional measuring, fitting, and precision garment alterations alongside self-service commercial laundry facilities.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
@@ -454,66 +453,90 @@ export default function App() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-cyan-100 group">
                   <img 
-                    src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=600&q=80" 
-                    alt="Commercial laundry washing and drying machines" 
-                    className="w-full h-40 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 sm:p-4">
-                    <span className="text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Laundry Services</span>
-                  </div>
-                </div>
-
-                <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-cyan-100 group">
-                  <img 
                     src={tailorImage} 
                     alt="Professional tailor measuring and marking denim with chalk" 
                     className="w-full h-40 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 sm:p-4">
-                    <span className="text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Tailoring & Alterations</span>
+                    <span className="text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Precision Tailoring</span>
+                  </div>
+                </div>
+
+                <div className="relative rounded-2xl overflow-hidden shadow-lg border-2 border-cyan-100 group">
+                  <img 
+                    src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=600&q=80" 
+                    alt="Commercial laundry washing and drying machines" 
+                    className="w-full h-40 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 sm:p-4">
+                    <span className="text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Self-Service Laundry</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* WHAT WE DO SECTION */}
+            {/* DETAILED ALTERATIONS & SERVICES SECTION (Like Zip Yard / Golden Needle) */}
             <div className="bg-white/95 backdrop-blur-md border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-xl space-y-8">
               <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-cyan-600 font-extrabold text-xs uppercase tracking-wider">Expert Craftsmanship</span>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">What Alterations & Services We Do</h2>
-                <p className="text-slate-600 text-sm">Professional fitting, hemming, and garment care tailored to perfection in Artane Shopping Centre.</p>
+                <span className="text-cyan-600 font-extrabold text-xs uppercase tracking-wider">Expert Craftsmanship & Fitting</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Our Professional Tailoring & Alteration Services</h2>
+                <p className="text-slate-600 text-sm">We provide expert garment alterations and tailoring to ensure your clothes fit you perfectly. Here is what we specialize in:</p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
                 <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold shadow-md">
                     <Scissors className="w-5 h-5" />
                   </div>
-                  <h3 className="font-extrabold text-slate-900 text-lg">Clothing Alterations</h3>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                    Trousers hemming, jeans original fade re-attachment, waist take-in/let-out, jacket sleeve shortening, side seams adjusting, and skirt/dress refitting.
-                  </p>
+                  <h3 className="font-extrabold text-slate-900 text-base">Trousers & Jeans</h3>
+                  <ul className="text-slate-600 text-xs space-y-1.5 list-disc list-inside">
+                    <li>Standard Hemming & Shortening</li>
+                    <li>Original Hemming (Keep Fade)</li>
+                    <li>Waist Take-in & Let-out</li>
+                    <li>Leg Tapering & Reshaping</li>
+                  </ul>
                 </div>
 
                 <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold shadow-md">
                     <Sparkles className="w-5 h-5" />
                   </div>
-                  <h3 className="font-extrabold text-slate-900 text-lg">Zips & Repairs</h3>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                    Fast zipper replacement for jackets, trousers, skirts, and dresses, plus runner/slider repairs, patch work, and lining replacements.
-                  </p>
+                  <h3 className="font-extrabold text-slate-900 text-base">Suits & Blazers</h3>
+                  <ul className="text-slate-600 text-xs space-y-1.5 list-disc list-inside">
+                    <li>Jacket Sleeve Shortening</li>
+                    <li>Side Seams Refitting</li>
+                    <li>Shoulder Adjustments</li>
+                    <li>Full Jacket Lining Replacement</li>
+                  </ul>
                 </div>
 
                 <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold">
-                    <Waves className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold shadow-md">
+                    <Shirt className="w-5 h-5" />
                   </div>
-                  <h3 className="font-extrabold text-slate-900 text-lg">Laundry & Dry Cleaning</h3>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                    Commercial grade wash, dry & fold per kg, specialist suit and coat dry cleaning, and heavy duvet / bedding care.
-                  </p>
+                  <h3 className="font-extrabold text-slate-900 text-base">Dresses & Skirts</h3>
+                  <ul className="text-slate-600 text-xs space-y-1.5 list-disc list-inside">
+                    <li>Hem Shortening (Simple & Layered)</li>
+                    <li>Side Seams & Bodice Refitting</li>
+                    <li>Strap Adjustments</li>
+                    <li>Waistband Resizing</li>
+                  </ul>
                 </div>
+
+                <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold shadow-md">
+                    <PackageCheck className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 text-base">Zips & Repairs</h3>
+                  <ul className="text-slate-600 text-xs space-y-1.5 list-disc list-inside">
+                    <li>Full Zip Replacement (Jeans & Jackets)</li>
+                    <li>Zip Runner / Slider Repair</li>
+                    <li>Patchwork & Tear Repairs</li>
+                    <li>Button Replacements</li>
+                  </ul>
+                </div>
+
               </div>
             </div>
           </div>
@@ -681,10 +704,10 @@ export default function App() {
                 <div className="space-y-6">
                   <div>
                     <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                      <Scissors className="w-5 h-5 text-cyan-600" /> Laundry & Tailoring Business
+                      <Scissors className="w-5 h-5 text-cyan-600" /> Tailoring & Alteration Specialists
                     </h3>
                     <p className="text-slate-600 text-sm mt-2 leading-relaxed">
-                      ALiCo at Artane Shopping Centre is Dublin's premier destination for expert garment care, precision measuring, and professional alterations.
+                      ALiCo at Artane Shopping Centre is Dublin's premier destination for expert garment alterations, precision measuring, and professional tailoring.
                     </p>
                   </div>
 
@@ -737,7 +760,7 @@ export default function App() {
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
-              <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide. (Payment up front only).</p>
+              <p className="text-slate-600 text-sm">Professional alterations and self-service laundry pricing guide. (Payment up front only).</p>
             </div>
 
             <div className="divide-y divide-cyan-50 text-sm font-medium">
