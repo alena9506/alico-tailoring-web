@@ -234,56 +234,53 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cyan-50/80 via-white to-teal-50/40 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-cyan-50/80 via-white to-teal-50/40 text-slate-800 flex flex-col font-sans selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
       
-      {/* VECTOR WAVES (Matching Flyer Wave Curves) */}
+      {/* VECTOR WAVES */}
       <div className="absolute top-0 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none -z-10 opacity-70">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-28 text-cyan-200/60 fill-current">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-24 sm:h-28 text-cyan-200/60 fill-current">
           <path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,40 L1200,0 L0,0 Z"></path>
         </svg>
       </div>
 
-      <div className="absolute top-80 left-0 right-0 w-full overflow-hidden leading-none pointer-events-none -z-10 opacity-40">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-36 text-cyan-300/40 fill-current">
-          <path d="M0,40 C300,120 600,0 900,80 C1050,120 1150,20 1200,40 L1200,120 L0,120 Z"></path>
-        </svg>
-      </div>
-
-      {/* FLYER-STYLE ORANGE PAYMENT UPFRONT BADGE */}
-      <div className="fixed bottom-24 right-6 z-45 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-full w-28 h-28 sm:w-32 sm:h-32 flex flex-col items-center justify-center p-3 text-center shadow-2xl border-4 border-white animate-bounce pointer-events-none">
-        <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-tight leading-tight">Payment</span>
-        <span className="text-xs sm:text-sm font-black uppercase tracking-wider">up front</span>
-        <span className="text-[10px] sm:text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mt-0.5">only</span>
+      {/* FLYER-STYLE ORANGE PAYMENT UPFRONT BADGE (Positioned safely above footer on mobile) */}
+      <div className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-40 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-full w-24 h-24 sm:w-32 sm:h-32 flex flex-col items-center justify-center p-2 text-center shadow-2xl border-3 sm:border-4 border-white animate-bounce pointer-events-none">
+        <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-tight leading-tight">Payment</span>
+        <span className="text-[11px] sm:text-sm font-black uppercase tracking-wider">up front</span>
+        <span className="text-[9px] sm:text-xs font-bold bg-white/20 px-2 py-0.5 rounded-full mt-0.5">only</span>
       </div>
 
       {/* TOP ANNOUNCEMENT BAR */}
-      <div className="bg-gradient-to-r from-teal-700 via-cyan-700 to-teal-800 text-white text-xs py-2 px-4 text-center font-semibold tracking-wide flex justify-center items-center gap-4 shadow-sm">
+      <div className="bg-gradient-to-r from-teal-700 via-cyan-700 to-teal-800 text-white text-[11px] sm:text-xs py-2 px-3 text-center font-semibold tracking-wide flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-4 shadow-sm">
         <span>📍 Artane Shopping Centre, Dublin</span>
         <span className="hidden sm:inline">•</span>
         <span>Strict Policy: Payment Up Front Only Upon Drop-Off</span>
       </div>
 
-      {/* HEADER & NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-4 sm:px-8 py-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
+      {/* HEADER & MOBILE RESPONSIVE NAVIGATION */}
+      <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-3 sm:px-8 py-3 sm:py-4 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
           
-          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
-            <img 
-              src={logoImage} 
-              alt="ALiCo Logo" 
-              className="h-14 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform" 
-            />
-            <div>
-              <h1 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">ALiCo</h1>
-              <p className="text-[11px] text-cyan-600 font-bold uppercase tracking-wider">Laundry & Tailoring Business</p>
+          <div className="flex items-center justify-between w-md md:w-auto gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
+            <div className="flex items-center gap-3">
+              <img 
+                src={logoImage} 
+                alt="ALiCo Logo" 
+                className="h-12 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform" 
+              />
+              <div>
+                <h1 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">ALiCo</h1>
+                <p className="text-[10px] sm:text-[11px] text-cyan-600 font-bold uppercase tracking-wider">Laundry & Tailoring Business</p>
+              </div>
             </div>
           </div>
 
-          <nav className="bg-cyan-50/80 p-1.5 rounded-2xl border border-cyan-100 shadow-inner w-full lg:w-auto">
-            <div className="grid grid-cols-3 sm:flex sm:flex-wrap gap-1">
+          {/* Clean Mobile Scrollable Navigation */}
+          <nav className="bg-cyan-50/90 p-1 rounded-2xl border border-cyan-100 shadow-inner w-full md:w-auto overflow-x-auto">
+            <div className="flex flex-row gap-1 whitespace-nowrap">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'overview' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
@@ -291,7 +288,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('estimator')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'estimator' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
@@ -299,7 +296,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('tracker')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'tracker' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
@@ -307,7 +304,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('about')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap flex items-center justify-center gap-1 ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
                   activeTab === 'about' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
@@ -315,7 +312,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveTab('menu')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap sm:col-auto col-span-2 ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
                   activeTab === 'menu' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
                 }`}
               >
@@ -327,32 +324,34 @@ export default function App() {
       </header>
 
       {/* MAIN CONTENT AREA */}
-      <main className="flex-1 p-4 sm:p-8 max-w-7xl w-full mx-auto space-y-12">
+      <main className="flex-1 p-3 sm:p-8 max-w-7xl w-full mx-auto space-y-8 sm:space-y-12">
         
         {activeTab === 'overview' && (
-          <div className="space-y-12 py-2">
-            <div className="bg-gradient-to-r from-teal-800 via-cyan-800 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-cyan-500/30">
+          <div className="space-y-8 sm:space-y-12 py-2">
+            {/* POLICY BANNER */}
+            <div className="bg-gradient-to-r from-teal-800 via-cyan-800 to-slate-900 text-white rounded-3xl p-5 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-cyan-500/30">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0 shadow-inner">
-                  <AlertTriangle className="w-7 h-7 animate-pulse" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0 shadow-inner">
+                  <AlertTriangle className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
                 </div>
                 <div className="space-y-1">
-                  <span className="bg-cyan-500/30 text-cyan-200 font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-widest">Mandatory Store Policy</span>
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Payment Up Front Only</h3>
-                  <p className="text-cyan-100/90 text-sm leading-relaxed max-w-2xl font-medium">
+                  <span className="bg-cyan-500/30 text-cyan-200 font-extrabold text-[10px] sm:text-[11px] px-3 py-1 rounded-full uppercase tracking-widest">Mandatory Store Policy</span>
+                  <h3 className="text-lg sm:text-2xl font-extrabold text-white tracking-tight">Payment Up Front Only</h3>
+                  <p className="text-cyan-100/90 text-xs sm:text-sm leading-relaxed max-w-2xl font-medium">
                     Please note: No items or garments will be taken, accepted, or processed for laundry or alterations without prior payment up front upon drop-off.
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setActiveTab('about')}
-                className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold px-6 py-3 rounded-2xl transition shadow-lg text-sm whitespace-nowrap shrink-0"
+                className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold px-6 py-3 rounded-2xl transition shadow-lg text-xs sm:text-sm whitespace-nowrap shrink-0 w-full md:w-auto"
               >
                 View Full Policy
               </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white/90 backdrop-blur-md border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-xl">
+            {/* HERO SECTION */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center bg-white/95 backdrop-blur-md border border-cyan-100 rounded-3xl p-5 sm:p-10 shadow-xl">
               <div className="space-y-6 text-left">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="inline-flex items-center gap-2 bg-cyan-50 text-cyan-900 text-xs px-4 py-2 rounded-full font-extrabold uppercase tracking-wider border border-cyan-100">
@@ -372,24 +371,24 @@ export default function App() {
                   </div>
                 </div>
                 
-                <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                  Laundry & <span className="text-cyan-600">Tailoring Business</span>
+                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                  Expert Laundry & <span className="text-cyan-600">Tailoring Services</span>
                 </h1>
                 
-                <p className="text-slate-600 text-base leading-relaxed">
-                  Welcome to ALiCo at Artane Shopping Centre, Dublin. We combine commercial laundry care with professional measuring, marking, and garment alterations.
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+                  Welcome to ALiCo at Artane Shopping Centre. We provide professional garment alterations, precision tailoring, and commercial laundry care.
                 </p>
 
                 <div className="flex flex-wrap gap-4 pt-2">
                   <button
                     onClick={() => setActiveTab('estimator')}
-                    className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-600/25 text-sm"
+                    className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-6 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-600/25 text-xs sm:text-sm"
                   >
                     Calculate Estimate
                   </button>
                   <button
                     onClick={() => setActiveTab('tracker')}
-                    className="bg-cyan-50 hover:bg-cyan-100 border-2 border-cyan-200 text-cyan-950 font-extrabold px-7 py-3.5 rounded-2xl transition shadow-sm text-sm"
+                    className="bg-cyan-50 hover:bg-cyan-100 border-2 border-cyan-200 text-cyan-950 font-extrabold px-6 py-3.5 rounded-2xl transition shadow-sm text-xs sm:text-sm"
                   >
                     Track My Order
                   </button>
@@ -401,10 +400,10 @@ export default function App() {
                   <img 
                     src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&w=600&q=80" 
                     alt="Commercial laundry washing and drying machines" 
-                    className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-40 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Laundry Services</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 sm:p-4">
+                    <span className="text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5"><Waves className="w-3.5 h-3.5 text-cyan-400" /> Laundry Services</span>
                   </div>
                 </div>
 
@@ -412,27 +411,68 @@ export default function App() {
                   <img 
                     src={tailorImage} 
                     alt="Professional tailor measuring and marking denim with chalk" 
-                    className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-40 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
-                    <span className="text-white text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Tailoring Services</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-3 sm:p-4">
+                    <span className="text-white text-[11px] sm:text-xs font-bold flex items-center gap-1.5"><Scissors className="w-3.5 h-3.5 text-cyan-400" /> Tailoring & Alterations</span>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* WHAT WE DO SECTION (Similar to Zip Yard / Golden Needle) */}
+            <div className="bg-white/95 backdrop-blur-md border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-xl space-y-8">
+              <div className="text-center max-w-2xl mx-auto space-y-2">
+                <span className="text-cyan-600 font-extrabold text-xs uppercase tracking-wider">Expert Craftsmanship</span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">What Alterations & Services We Do</h2>
+                <p className="text-slate-600 text-sm">Professional fitting, hemming, and garment care tailored to perfection in Artane Shopping Centre.</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold">
+                    <Scissors className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 text-lg">Clothing Alterations</h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Trousers hemming, jeans original fade re-attachment, waist take-in/let-out, jacket sleeve shortening, side seams adjusting, and skirt/dress refitting.
+                  </p>
+                </div>
+
+                <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 text-lg">Zips & Repairs</h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Fast zipper replacement for jackets, trousers, skirts, and dresses, plus runner/slider repairs, patch work, and lining replacements.
+                  </p>
+                </div>
+
+                <div className="bg-cyan-50/60 border border-cyan-100 p-6 rounded-2xl space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold">
+                    <Waves className="w-5 h-5" />
+                  </div>
+                  <h3 className="font-extrabold text-slate-900 text-lg">Laundry & Dry Cleaning</h3>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Commercial grade wash, dry & fold per kg, specialist suit and coat dry cleaning, and heavy duvet / bedding care.
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* MULTI-ITEM PRICE ESTIMATOR TAB */}
+        {/* PRICE ESTIMATOR TAB */}
         {activeTab === 'estimator' && (
-          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
+          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-5 sm:p-10 shadow-2xl space-y-8">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
-              <h2 className="text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Interactive Price Estimator</h2>
               <p className="text-slate-600 text-sm">Select multiple garments or services, add them to your estimate, and review your total.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-cyan-50/50 p-6 rounded-3xl border border-cyan-200">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-cyan-50/50 p-5 sm:p-6 rounded-3xl border border-cyan-200">
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-2">1. Select Category</label>
                 <select
@@ -468,21 +508,20 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleAddItemToEstimate}
-                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-cyan-600/25 flex items-center gap-2 text-sm"
+                  className="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold px-6 py-3 rounded-2xl transition shadow-lg shadow-cyan-600/25 flex items-center gap-2 text-sm w-full md:w-auto justify-center"
                 >
                   <Plus className="w-4 h-4" /> Add Item to Estimate
                 </button>
               </div>
             </div>
 
-            {/* ESTIMATE CART / SELECTED ITEMS */}
             <div className="space-y-4">
               <h3 className="font-extrabold text-slate-900 text-lg flex items-center gap-2">
                 <ShoppingCart className="w-5 h-5 text-cyan-600" /> Selected Items ({estimateCart.length})
               </h3>
 
               {estimateCart.length === 0 ? (
-                <div className="border-2 border-dashed border-cyan-200 rounded-3xl p-8 text-center text-slate-500 text-sm font-medium bg-white">
+                <div className="border-2 border-dashed border-cyan-200 rounded-3xl p-6 sm:p-8 text-center text-slate-500 text-xs sm:text-sm font-medium bg-white">
                   No items added yet. Select a category and service above and click "Add Item to Estimate".
                 </div>
               ) : (
@@ -493,10 +532,10 @@ export default function App() {
                       <div key={item.id} className="p-4 sm:p-5 flex justify-between items-center hover:bg-cyan-50/40 transition">
                         <div>
                           <span className="text-xs font-extrabold text-cyan-700 uppercase tracking-wider block">{item.category}</span>
-                          <h4 className="font-bold text-slate-900 text-base">{item.name}</h4>
+                          <h4 className="font-bold text-slate-900 text-sm sm:text-base">{item.name}</h4>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <span className="font-extrabold text-cyan-600 text-lg">€{livePrice.toFixed(2)}</span>
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          <span className="font-extrabold text-cyan-600 text-base sm:text-lg">€{livePrice.toFixed(2)}</span>
                           <button
                             onClick={() => handleRemoveItem(item.id)}
                             className="bg-rose-50 hover:bg-rose-100 text-rose-600 p-2 rounded-xl transition shadow-sm"
@@ -512,11 +551,10 @@ export default function App() {
               )}
             </div>
 
-            {/* TOTAL ESTIMATE BANNER */}
-            <div className="bg-gradient-to-r from-teal-700 to-cyan-600 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl shadow-cyan-500/20">
+            <div className="bg-gradient-to-r from-teal-700 to-cyan-600 text-white rounded-3xl p-5 sm:p-8 flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl shadow-cyan-500/20">
               <div>
                 <p className="text-xs uppercase font-bold tracking-widest text-cyan-100">Total Estimated Price</p>
-                <p className="text-4xl sm:text-5xl font-extrabold mt-1">€{totalEstimatePrice}</p>
+                <p className="text-3xl sm:text-5xl font-extrabold mt-1">€{totalEstimatePrice}</p>
               </div>
               <span className="text-xs text-cyan-100 text-center sm:text-right max-w-[220px] leading-relaxed font-medium">
                 Payment up front only upon drop-off at Artane Shopping Centre.
@@ -526,10 +564,10 @@ export default function App() {
         )}
 
         {activeTab === 'tracker' && (
-          <div className="max-w-xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-xl mx-auto bg-white border border-cyan-100 rounded-3xl p-5 sm:p-10 shadow-2xl space-y-6">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live System</span>
-              <h2 className="text-3xl font-bold text-slate-900 mt-1">Track Your Order</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Track Your Order</h2>
               <p className="text-slate-600 text-sm">Enter your ticket number to view real-time status from our shop database.</p>
             </div>
 
@@ -544,7 +582,7 @@ export default function App() {
               <button
                 type="submit"
                 disabled={loadingOrder}
-                className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-7 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-600/25 disabled:opacity-50 text-sm"
+                className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-6 py-3.5 rounded-2xl transition shadow-lg shadow-cyan-600/25 disabled:opacity-50 text-sm"
               >
                 {loadingOrder ? 'Searching...' : 'Search Ticket'}
               </button>
@@ -578,12 +616,12 @@ export default function App() {
           <div className="max-w-4xl mx-auto space-y-8 py-2">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Dublin Business & Policies</span>
-              <h2 className="text-3xl font-bold text-slate-900 tracking-tight mt-1">About ALiCo & Store Policy</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mt-1">About ALiCo & Store Policy</h2>
               <p className="text-slate-600 text-sm">Learn more about our craftsmanship and our mandatory up front payment policy.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white border border-cyan-100 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
+              <div className="bg-white border border-cyan-100 rounded-3xl p-5 sm:p-8 space-y-6 shadow-xl flex flex-col justify-between">
                 <div className="space-y-6">
                   <div>
                     <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
@@ -608,7 +646,7 @@ export default function App() {
                 </button>
               </div>
 
-              <div className="bg-gradient-to-br from-teal-950 via-slate-900 to-cyan-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden border border-cyan-500/20">
+              <div className="bg-gradient-to-br from-teal-950 via-slate-900 to-cyan-950 text-white rounded-3xl p-5 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden border border-cyan-500/20">
                 <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                   <CreditCard className="w-32 h-32" />
                 </div>
@@ -639,10 +677,10 @@ export default function App() {
         )}
 
         {activeTab === 'menu' && (
-          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6">
+          <div className="max-w-3xl mx-auto bg-white border border-cyan-100 rounded-3xl p-5 sm:p-10 shadow-2xl space-y-6">
             <div>
               <span className="text-cyan-600 font-bold text-xs uppercase tracking-wider">Live Real-Time Synchronized Rates</span>
-              <h2 className="text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Standard Price Menu</h2>
               <p className="text-slate-600 text-sm">Professional laundry care and alterations pricing guide. (Payment up front only).</p>
             </div>
 
@@ -664,28 +702,28 @@ export default function App() {
 
       </main>
 
-      {/* FLOATING QUICK CONTACT WIDGET (WhatsApp & Call) */}
-      <div className="fixed bottom-6 right-36 sm:right-40 z-50 flex flex-col items-end gap-3">
+      {/* FLOATING QUICK CONTACT WIDGET (Positioned higher to never overlap the orange badge) */}
+      <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-2.5">
         <a 
           href="https://wa.me/353860872382?text=Hi%20ALiCo%2C%20I%20would%20like%20to%20inquire%20about%20laundry%20and%20tailoring%20services." 
           target="_blank" 
           rel="noopener noreferrer"
-          className="bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative border-2 border-white"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white p-3 sm:p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative border-2 border-white"
           aria-label="Chat on WhatsApp"
         >
-          <MessageCircle className="w-6 h-6 fill-white text-emerald-500" />
-          <span className="absolute right-14 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
+          <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 fill-white text-emerald-500" />
+          <span className="absolute right-12 sm:right-14 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
             Chat on WhatsApp
           </span>
         </a>
 
         <a 
           href="tel:+353860872382" 
-          className="bg-cyan-600 hover:bg-cyan-500 text-white p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative border-2 border-white"
+          className="bg-cyan-600 hover:bg-cyan-500 text-white p-3 sm:p-3.5 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110 group relative border-2 border-white"
           aria-label="Call Store"
         >
-          <PhoneCall className="w-6 h-6" />
-          <span className="absolute right-14 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
+          <PhoneCall className="w-5 h-5 sm:w-6 sm:h-6" />
+          <span className="absolute right-12 sm:right-14 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md pointer-events-none">
             Call +353 86 087 2382
           </span>
         </a>
