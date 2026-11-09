@@ -21,7 +21,9 @@ import {
   PhoneCall,
   Plus,
   Trash2,
-  ShoppingCart
+  ShoppingCart,
+  Menu,
+  X
 } from 'lucide-react';
 import { db } from './firebase';
 import { collection, onSnapshot, getDocs } from 'firebase/firestore';
@@ -36,6 +38,9 @@ export default function App() {
   useEffect(() => {
     sessionStorage.setItem('alico_active_tab', activeTab);
   }, [activeTab]);
+
+  // Mobile menu open/close state
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [alterationOptions, setAlterationOptions] = useState({
     'Trousers / Jeans': [
@@ -243,7 +248,7 @@ export default function App() {
         </svg>
       </div>
 
-      {/* FLYER-STYLE ORANGE PAYMENT UPFRONT BADGE (Positioned safely above footer on mobile) */}
+      {/* FLYER-STYLE ORANGE PAYMENT UPFRONT BADGE */}
       <div className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-40 bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-full w-24 h-24 sm:w-32 sm:h-32 flex flex-col items-center justify-center p-2 text-center shadow-2xl border-3 sm:border-4 border-white animate-bounce pointer-events-none">
         <span className="text-[10px] sm:text-xs font-extrabold uppercase tracking-tight leading-tight">Payment</span>
         <span className="text-[11px] sm:text-sm font-black uppercase tracking-wider">up front</span>
@@ -257,70 +262,121 @@ export default function App() {
         <span>Strict Policy: Payment Up Front Only Upon Drop-Off</span>
       </div>
 
-      {/* HEADER & MOBILE RESPONSIVE NAVIGATION */}
-      <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-3 sm:px-8 py-3 sm:py-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
+      {/* HEADER & MOBILE MENU BUTTON */}
+      <header className="sticky top-0 z-50 bg-white/95 border-b border-cyan-100 backdrop-blur-md px-4 sm:px-8 py-3.5 shadow-sm">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           
-          <div className="flex items-center justify-between w-md md:w-auto gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
-            <div className="flex items-center gap-3">
-              <img 
-                src={logoImage} 
-                alt="ALiCo Logo" 
-                className="h-12 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform" 
-              />
-              <div>
-                <h1 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">ALiCo</h1>
-                <p className="text-[10px] sm:text-[11px] text-cyan-600 font-bold uppercase tracking-wider">Laundry & Tailoring Business</p>
-              </div>
+          <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setActiveTab('overview')}>
+            <img 
+              src={logoImage} 
+              alt="ALiCo Logo" 
+              className="h-12 sm:h-16 w-auto object-contain group-hover:scale-105 transition-transform" 
+            />
+            <div>
+              <h1 className="text-base sm:text-xl font-extrabold text-slate-900 tracking-tight">ALiCo</h1>
+              <p className="text-[10px] sm:text-[11px] text-cyan-600 font-bold uppercase tracking-wider">Laundry & Tailoring Business</p>
             </div>
           </div>
 
-          {/* Clean Mobile Scrollable Navigation */}
-          <nav className="bg-cyan-50/90 p-1 rounded-2xl border border-cyan-100 shadow-inner w-full md:w-auto overflow-x-auto">
-            <div className="flex flex-row gap-1 whitespace-nowrap">
-              <button
-                onClick={() => setActiveTab('overview')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === 'overview' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
-                }`}
-              >
-                Overview
-              </button>
-              <button
-                onClick={() => setActiveTab('estimator')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === 'estimator' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
-                }`}
-              >
-                Price Estimator
-              </button>
-              <button
-                onClick={() => setActiveTab('tracker')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === 'tracker' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
-                }`}
-              >
-                Live Tracker
-              </button>
-              <button
-                onClick={() => setActiveTab('about')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
-                  activeTab === 'about' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
-                }`}
-              >
-                <Info className="w-3.5 h-3.5 shrink-0" /> About & Policy
-              </button>
-              <button
-                onClick={() => setActiveTab('menu')}
-                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === 'menu' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
-                }`}
-              >
-                Price Menu
-              </button>
-            </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex bg-cyan-50/80 p-1.5 rounded-2xl border border-cyan-100 shadow-inner gap-1">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'overview' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('estimator')}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'estimator' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+              }`}
+            >
+              Price Estimator
+            </button>
+            <button
+              onClick={() => setActiveTab('tracker')}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'tracker' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+              }`}
+            >
+              Live Tracker
+            </button>
+            <button
+              onClick={() => setActiveTab('about')}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
+                activeTab === 'about' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+              }`}
+            >
+              <Info className="w-3.5 h-3.5 shrink-0" /> About & Policy
+            </button>
+            <button
+              onClick={() => setActiveTab('menu')}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'menu' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-500/30' : 'text-slate-700 hover:text-cyan-900 hover:bg-cyan-100/60'
+              }`}
+            >
+              Price Menu
+            </button>
           </nav>
+
+          {/* Mobile Hamburger Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden bg-cyan-100 hover:bg-cyan-200 text-cyan-900 p-2.5 rounded-2xl transition shadow-sm flex items-center justify-center"
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Dropdown Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden mt-3 pt-3 border-t border-cyan-100 flex flex-col gap-2 bg-white/95 rounded-2xl p-3 shadow-xl">
+            <button
+              onClick={() => { setActiveTab('overview'); setMobileMenuOpen(false); }}
+              className={`px-4 py-3 rounded-xl text-sm font-bold text-left transition-all ${
+                activeTab === 'overview' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-700 hover:bg-cyan-50'
+              }`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => { setActiveTab('estimator'); setMobileMenuOpen(false); }}
+              className={`px-4 py-3 rounded-xl text-sm font-bold text-left transition-all ${
+                activeTab === 'estimator' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-700 hover:bg-cyan-50'
+              }`}
+            >
+              Price Estimator
+            </button>
+            <button
+              onClick={() => { setActiveTab('tracker'); setMobileMenuOpen(false); }}
+              className={`px-4 py-3 rounded-xl text-sm font-bold text-left transition-all ${
+                activeTab === 'tracker' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-700 hover:bg-cyan-50'
+              }`}
+            >
+              Live Tracker
+            </button>
+            <button
+              onClick={() => { setActiveTab('about'); setMobileMenuOpen(false); }}
+              className={`px-4 py-3 rounded-xl text-sm font-bold text-left transition-all flex items-center gap-2 ${
+                activeTab === 'about' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-700 hover:bg-cyan-50'
+              }`}
+            >
+              <Info className="w-4 h-4 shrink-0" /> About & Policy
+            </button>
+            <button
+              onClick={() => { setActiveTab('menu'); setMobileMenuOpen(false); }}
+              className={`px-4 py-3 rounded-xl text-sm font-bold text-left transition-all ${
+                activeTab === 'menu' ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-700 hover:bg-cyan-50'
+              }`}
+            >
+              Price Menu
+            </button>
+          </div>
+        )}
       </header>
 
       {/* MAIN CONTENT AREA */}
@@ -420,7 +476,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* WHAT WE DO SECTION (Similar to Zip Yard / Golden Needle) */}
+            {/* WHAT WE DO SECTION */}
             <div className="bg-white/95 backdrop-blur-md border border-cyan-100 rounded-3xl p-6 sm:p-10 shadow-xl space-y-8">
               <div className="text-center max-w-2xl mx-auto space-y-2">
                 <span className="text-cyan-600 font-extrabold text-xs uppercase tracking-wider">Expert Craftsmanship</span>
@@ -702,7 +758,7 @@ export default function App() {
 
       </main>
 
-      {/* FLOATING QUICK CONTACT WIDGET (Positioned higher to never overlap the orange badge) */}
+      {/* FLOATING QUICK CONTACT WIDGET */}
       <div className="fixed bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end gap-2.5">
         <a 
           href="https://wa.me/353860872382?text=Hi%20ALiCo%2C%20I%20would%20like%20to%20inquire%20about%20laundry%20and%20tailoring%20services." 
